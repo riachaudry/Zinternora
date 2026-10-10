@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Themes. Values are "R G B" triplets so Tailwind opacity (bg-ink/5) works.
+   classic = the original Zinternora navy & gold branding (default).
+   light   = Light & Minimal.   dark = Dark Mode.
+   Official documents (offer letter, certificate, LOR) always use `classic`.
+------------------------------------------------------------------- */
+:root, [data-theme='classic'] {
+  --ink: 16 28 51; --ink-soft: 27 42 69; --ink-deep: 10 18 35;
+  --slate: 58 74 99; --slate-light: 107 124 150;
+  --mist: 238 242 247; --mist-deep: 221 229 239;
+  --signal: 31 111 92; --signal-light: 228 241 237; --signal-dark: 23 83 70;
+  --amber: 224 165 38; --amber-light: 252 242 220; --amber-dark: 168 119 15;
+  --danger: 179 38 30; --danger-light: 251 233 231;
+  --surface: 255 255 255; --page: 255 255 255;
+  /* solid fills for buttons / dark panels (white text sits on these) */
+  --ink-solid: 16 28 51; --ink-soft-solid: 27 42 69; --ink-deep-solid: 10 18 35;
+  --signal-solid: 31 111 92; --signal-solid-dark: 23 83 70; --danger-solid: 179 38 30;
+  --accent-gold: 224 165 38;
+  --shadow-card: 0 1px 2px rgba(16,28,51,.06), 0 12px 28px -18px rgba(16,28,51,.35);
+  color-scheme: light;
+}
+[data-theme='light'] {
+  --ink: 17 24 39; --ink-soft: 31 41 55; --ink-deep: 3 7 18;
+  --slate: 75 85 99; --slate-light: 98 107 121;
+  --mist: 243 244 246; --mist-deep: 229 231 235;
+  --signal: 37 99 235; --signal-light: 219 234 254; --signal-dark: 29 78 216;
+  --amber: 217 119 6; --amber-light: 254 243 199; --amber-dark: 146 64 14;
+  --danger: 185 28 28; --danger-light: 254 226 226;
+  --surface: 255 255 255; --page: 255 255 255;
+  --ink-solid: 29 78 216; --ink-soft-solid: 30 64 175; --ink-deep-solid: 30 58 138;
+  --signal-solid: 37 99 235; --signal-solid-dark: 29 78 216; --danger-solid: 185 28 28;
+  --accent-gold: 217 119 6;
+  --shadow-card: 0 1px 2px rgba(17,24,39,.05), 0 8px 20px -14px rgba(17,24,39,.25);
+  color-scheme: light;
+}
+[data-theme='dark'] {
+  --ink: 241 245 249; --ink-soft: 226 232 240; --ink-deep: 248 250 252;
+  --slate: 203 213 225; --slate-light: 148 163 184;
+  --mist: 15 23 42; --mist-deep: 51 65 85;
+  --signal: 52 211 153; --signal-light: 6 78 59; --signal-dark: 110 231 183;
+  --amber: 251 191 36; --amber-light: 69 26 3; --amber-dark: 252 211 77;
+  --danger: 248 113 113; --danger-light: 69 10 10;
+  --surface: 30 41 59; --page: 15 23 42;
+  --ink-solid: 51 65 85; --ink-soft-solid: 30 41 59; --ink-deep-solid: 2 6 23;
+  --signal-solid: 4 120 87; --signal-solid-dark: 6 95 70; --danger-solid: 185 28 28;
+  --accent-gold: 251 191 36;
+  --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 12px 28px -18px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply text-ink font-sans antialiased;
+    background-color: rgb(var(--page));
+    font-feature-settings: 'cv02', 'cv03', 'ss01';
+  }
+  h1, h2, h3, h4 { @apply font-display tracking-[-.02em]; }
+  :focus-visible { @apply outline-none ring-2 ring-signal ring-offset-2 rounded-md; }
+  ::selection { background: rgb(var(--signal) / .25); }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .prose-narrow { @apply max-w-[68ch] leading-relaxed text-slate; }
+  .card { @apply rounded-2xl border border-mist-deep shadow-card; background-color: rgb(var(--surface)); }
+  .hairline { @apply border-t border-mist-deep; }
+  .field-label { @apply block text-[13px] font-semibold text-ink mb-1.5; }
+  .field {
+    @apply w-full rounded-xl border border-mist-deep bg-white px-3.5 py-2.5 text-[15px]
+           text-ink placeholder:text-slate-light/70 transition
+           focus:border-signal focus:ring-2 focus:ring-signal/20 focus:outline-none;
+  }
+  .field-error { @apply mt-1.5 text-[13px] text-danger; }
+
+  /* Label wrapper: <label class="form-row"><span>Label</span><input/></label> */
+  .form-row { @apply block; }
+  .form-row > span { @apply block text-[13px] font-semibold text-ink mb-1.5; }
+  .form-row > input,
+  .form-row > select,
+  .form-row > textarea {
+    @apply w-full rounded-xl border border-mist-deep bg-white px-3.5 py-2.5 text-[15px]
+           text-ink placeholder:text-slate-light/70 transition
+           focus:border-signal focus:ring-2 focus:ring-signal/20 focus:outline-none;
+  }
+  .form-row > input[readonly] { @apply bg-mist/60 text-slate; }
+  .form-row > small { @apply mt-1.5 block text-[12px] text-slate-light; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Documents (offer letter, certificate, LOR) print cleanly to PDF. */
+@media print {
+  .no-print { display: none !important; }
+  .doc-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; }
+  @page { size: A4; margin: 14mm; }
+}
+
+/* The rose-gold logo mark keeps a light chip in Dark Mode so it stays readable. */
+[data-theme='dark'] .brand-mark { background: #FBF6F3; padding: 3px; border-radius: 12px; }
+
+/* Theme-aware fills. `bg-white` means "the card surface"; solid navy/green/red fills keep white text readable in every theme. */
+.bg-white { background-color: rgb(var(--surface)); }
+.bg-white\/95 { background-color: rgb(var(--surface) / .95); }
+.bg-white\/80 { background-color: rgb(var(--surface) / .8); }
+.bg-ink { background-color: rgb(var(--ink-solid)); }
+.bg-ink-soft { background-color: rgb(var(--ink-soft-solid)); }
+.bg-ink-deep { background-color: rgb(var(--ink-deep-solid)); }
+.bg-signal { background-color: rgb(var(--signal-solid)); }
+.hover\:bg-signal-dark:hover { background-color: rgb(var(--signal-solid-dark)); }
+.bg-danger { background-color: rgb(var(--danger-solid)); }
+.border-ink { border-color: rgb(var(--ink-solid)); }
+/* Calendar "today" and gold accents */
+.accent-gold-bg { background-color: rgb(var(--accent-gold)); }
+
+/* Inputs keep a readable surface in every theme */
+.field, .form-row > input, .form-row > select, .form-row > textarea {
+  background-color: rgb(var(--surface)); color: rgb(var(--ink));
+}
+
+/* ===================================================================
+   Official documents (Offer Letter, Certificate, LOR) — A4, navy & gold.
+   Always classic colours, in every theme. Page is 794 x 1123 px (A4 @96dpi).
+=================================================================== */
+.od-wrap { width: 100%; max-width: 794px; margin: 0 auto 24px; position: relative; }
+.od-scale { width: 794px; height: 1123px; transform-origin: top left; }
+.od-page {
+  position: relative; width: 794px; height: 1123px; overflow: hidden; background: #fff; color: #1B2A45;
+  font-family: Georgia, 'Times New Roman', serif; font-size: 13px; line-height: 1.42;
+  box-shadow: 0 10px 40px -18px rgba(11,45,91,.55); -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.od-art { position: absolute; inset: 0; width: 794px; height: 1123px; z-index: 0; }
+.od-page > *:not(.od-art) { position: absolute; z-index: 1; }
+.od-page p, .od-page h1, .od-page ul { margin: 0; }
+
+.od-logo-pos { left: 66px; top: 92px; }
+.od-cert-logo { left: 0; right: 0; top: 84px; display: flex; justify-content: center; margin-left: -120px; }
+.od-logo { display: flex; align-items: center; gap: 10px; }
+.od-logo-name { font-family: var(--font-display), Arial, sans-serif; font-weight: 800; font-size: 29px; letter-spacing: .3px; color: #0B2D5B; line-height: 1; }
+.od-logo-motto { display: flex; align-items: center; gap: 8px; margin-top: 6px !important; font: 600 10px Arial, sans-serif; letter-spacing: 2.4px; color: #B8862B; white-space: nowrap; }
+.od-logo-motto span { width: 22px; height: 1px; background: #B8862B; display: none; }
+
+.od-idqr-pos { right: 52px; top: 42px; text-align: right; }
+.od-idqr { display: flex; flex-direction: column; align-items: flex-end; }
+.od-idqr-label { font-size: 11.5px; color: #1B2A45; }
+.od-idqr-id { font-weight: 700; font-size: 12.5px; color: #0B2D5B; margin-bottom: 4px !important; }
+.od-idqr-verify { font: 600 8.5px Arial, sans-serif; color: #0B2D5B; line-height: 1.25; margin-top: 2px !important; text-align: center; }
+
+.od-title { font-family: var(--font-doc-serif), Georgia, serif; font-weight: 800; line-height: 1.02; letter-spacing: .5px; }
+.od-title .navy { color: #0B2D5B; } .od-title .gold { color: #B8862B; }
+.od-title-left { left: 62px; font-size: 48px; }
+.od-title-center { left: 0; right: 0; text-align: center; font-size: 44px; }
+.od-title-center .big { font-size: 62px; }
+
+.od-text { color: #1B2A45; }
+.od-text p { margin-top: 8px; }
+.od-dear { font-weight: 700; font-size: 14.5px; margin-top: 12px !important; }
+.od-h { font-weight: 700; margin-top: 10px !important; }
+.od-bullets { list-style: none; padding: 0; margin-top: 3px !important; }
+.od-bullets li { position: relative; padding-left: 14px; font-size: 11.6px; line-height: 1.38; margin-top: 2px; }
+.od-bullets li::before { content: ''; position: absolute; left: 1px; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: #D8A93A; }
+.od-lor p { font-size: 13.4px; line-height: 1.5; margin-top: 15px; }
+
+.od-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; border: 1px solid #B9C6DA; border-radius: 6px; overflow: hidden; font-size: 12px; }
+.od-table th { background: #0B2D5B; color: #fff; text-align: left; font: 700 12px Georgia, serif; letter-spacing: .6px; padding: 5px 10px; }
+.od-table td { padding: 3.5px 8px; border-top: 1px solid #D3DCEA; background: rgba(255,255,255,.7); }
+.od-table td.ic { width: 28px; text-align: center; }
+.od-table td.lb { width: 38%; border-right: 1px solid #D3DCEA; }
+.od-table td.vl.b { font-weight: 700; }
+
+.od-sigrow { left: 36px; right: 36px; display: flex; align-items: flex-end; justify-content: space-between; }
+.od-seal-slot { margin-bottom: 6px; }
+.od-sign { width: 200px; }
+.od-sign-right { text-align: left; }
+.od-sign-img { height: 60px; border-bottom: 1px solid #0B2D5B; display: flex; align-items: flex-end; margin-bottom: 4px; }
+.od-sign-img img { max-height: 58px; max-width: 190px; width: auto; object-fit: contain; }
+.od-sign-name { font-weight: 700; font-size: 13.5px; color: #0B2D5B; }
+.od-sign-title { font-size: 12.2px; color: #1B2A45; line-height: 1.25; }
+
+.od-footer { left: 0; right: 0; bottom: 20px; display: flex; justify-content: space-around; color: #fff; font: 500 12.5px Arial, sans-serif; }
+.od-footer span { display: inline-flex; align-items: center; gap: 9px; }
+
+/* certificate */
+.od-cert-body { left: 70px; right: 70px; top: 292px; text-align: center; }
+.od-cert-intro { font-size: 15.5px; color: #1B2A45; margin-top: 6px !important; }
+.od-script { font-family: var(--font-doc-script), 'Brush Script MT', cursive; font-size: 66px; line-height: 1.12; color: #0B2D5B; margin-top: 2px !important; }
+.od-gold-line { height: 1.6px; background: linear-gradient(90deg, transparent, #B8862B, transparent); width: 70%; margin: 0 auto 8px; }
+.od-pill { display: inline-block; background: #0B2D5B; color: #fff; font-family: var(--font-doc-serif), Georgia, serif; font-weight: 700; font-size: 21px; letter-spacing: .8px; padding: 6px 30px; border-radius: 999px; margin-top: 8px !important; }
+.od-domain { font-family: var(--font-doc-serif), Georgia, serif; font-weight: 700; font-size: 26px; color: #0B2D5B; }
+.od-cert-text { font-size: 13.6px; line-height: 1.45; max-width: 540px; margin: 10px auto 0 !important; }
+.od-weeks { list-style: none; padding: 0; display: flex; justify-content: center; gap: 26px; margin-top: 18px !important; }
+.od-weeks li { display: flex; flex-direction: column; align-items: center; width: 118px; font-size: 12px; line-height: 1.25; }
+.od-weeks li b { margin-top: 5px; font-size: 12.4px; letter-spacing: .3px; color: #0B2D5B; }
+.od-coin { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #FBEFB8, #E3B84A 70%, #C99A2E); border: 2px solid #B8862B; }
+.od-cert-bottom { left: 40px; right: 40px; top: 780px; height: 210px; }
+.od-cert-bottom > * { position: absolute; }
+.od-cert-left { left: 4px; top: 8px; width: 210px; }
+.od-cert-right { right: 4px; top: 58px; width: 200px; }
+.od-cert-seal { left: 0; right: 0; top: 4px; display: flex; justify-content: center; }
+.od-date { font-size: 15px; text-align: center; margin-top: 8px !important; }
+.od-date-line { height: 1px; background: #B8862B; margin: 2px 0 2px; }
+.od-date-label { font-size: 13px; text-align: center; margin-bottom: 14px !important; }
+.od-revoked { left: 70px; right: 70px; top: 770px; background: #FBE9E7; color: #B3261E; border-radius: 10px; padding: 8px; text-align: center; font: 700 13px Arial, sans-serif; }
+
+.od-sample { inset: 0; display: grid; place-items: center; font: 800 150px Arial, sans-serif; letter-spacing: 12px; color: rgba(11,45,91,.07); transform: rotate(-28deg); pointer-events: none; z-index: 2 !important; }
+.od-sr-only { display: none; }
+
+@media print {
+  /* print only the document: hide the portal sidebar, top bar and page padding */
+  aside, header.sticky { display: none !important; }
+  main { padding: 0 !important; }
+  body, .bg-mist\/60 { background: #fff !important; }
+  .od-wrap { height: 1123px !important; max-width: none; margin: 0 !important; break-after: page; page-break-after: always; }
+  .od-scale { transform: none !important; }
+  .od-page { box-shadow: none !important; }
+  @page { size: A4; margin: 0; }
+}

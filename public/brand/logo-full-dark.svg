@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="470" height="92" viewBox="0 0 470 92" fill="none">
+  <path d="M17 36L46 21L75 36L46 51L17 36Z" fill="#D4AF37"/>
+  <path d="M23 40V55L46 68L69 55V40L46 53L23 40Z" fill="#0B2D5B"/>
+  <path d="M46 53L62 44V63L46 73L30 63V44L46 53Z" fill="#D4AF37"/>
+  <path d="M46 53C51 48 57 44 64 42C62 51 57 59 46 66" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M71 30V41" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="71" cy="45" r="2.8" fill="#D4AF37"/>
+  <text x="106" y="48" font-family="Georgia,Times New Roman,serif" font-size="39" font-weight="700" fill="#FFFFFF" letter-spacing="-1">ZINTERNORA</text>
+  <text x="108" y="69" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#D4AF37" letter-spacing="3.5">LEARN | BUILD | GROW</text>
+  <text x="108" y="86" font-family="Arial,Helvetica,sans-serif" font-size="9.5" font-weight="500" fill="#DDE6F2" letter-spacing="1.2">VIRTUAL INTERNSHIPS. REAL EXPERIENCE.</text>
+</svg>
