@@ -6,9 +6,10 @@ import { hashToken } from '@/lib/ids';
 export const metadata = { title: 'Create your account' };
 export const dynamic = 'force-dynamic';
 
-export default async function RegisterPage({
-  searchParams,
-}: { searchParams: { field?: string; duration?: string; token?: string } }) {
+export default async function RegisterPage(
+  props: { searchParams: Promise<{ field?: string; duration?: string; token?: string }> }
+) {
+  const searchParams = await props.searchParams;
   let invited: { full_name: string; email: string } | null = null;
 
   if (searchParams.token) {

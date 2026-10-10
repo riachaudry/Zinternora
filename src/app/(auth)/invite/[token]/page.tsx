@@ -11,7 +11,8 @@ export const metadata = { title: 'Your invitation' };
  * Invitation landing. The raw token never leaves the email — we look up its
  * hash. Expired or used tokens fail closed.
  */
-export default async function InvitePage({ params }: { params: { token: string } }) {
+export default async function InvitePage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const db = createAdminClient();
   const { data: invite } = await db.from('invitations')
     .select('full_name, email, expires_at, accepted_at')

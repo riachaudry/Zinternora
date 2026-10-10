@@ -1,15 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Plus_Jakarta_Sans, Inter, Playfair_Display, Great_Vibes } from 'next/font/google';
+import '@fontsource/plus-jakarta-sans/600.css';
+import '@fontsource/plus-jakarta-sans/700.css';
+import '@fontsource/plus-jakarta-sans/800.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/playfair-display/800.css';
+import '@fontsource/great-vibes/400.css';
 import './globals.css';
 import { getBrand, brandPublic } from '@/lib/settings';
 import { BrandProvider } from '@/components/brand/BrandProvider';
 import { THEME_INIT_SCRIPT } from '@/lib/theme';
 import { PwaRegister } from '@/components/pwa/PwaRegister';
-
-const display = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-display', weight: ['600', '700', '800'] });
-const docSerif = Playfair_Display({ subsets: ['latin'], variable: '--font-doc-serif', weight: ['600', '700', '800'] });
-const docScript = Great_Vibes({ subsets: ['latin'], variable: '--font-doc-script', weight: ['400'] });
-const body = Inter({ subsets: ['latin'], variable: '--font-body', weight: ['400', '500', '600'] });
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrand();
@@ -30,11 +34,9 @@ export const viewport: Viewport = { themeColor: '#0B2D5B', width: 'device-width'
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const brand = await getBrand();
   return (
-    <html lang="en" data-theme="classic" suppressHydrationWarning className={`${display.variable} ${body.variable} ${docSerif.variable} ${docScript.variable}`}>
+    <html lang="en" data-theme="classic" suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} /></head>
       <body><BrandProvider brand={brandPublic(brand)}>{children}</BrandProvider><PwaRegister /></body>
     </html>
   );
 }
-
-

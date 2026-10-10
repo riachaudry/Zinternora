@@ -13,7 +13,8 @@ import { ok, fail, zodFail } from '../../../_lib';
  * Reviewing a submission is what drives progression: approving enough of a
  * week's required points completes the week and unlocks the next one.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const raw = await req.json();

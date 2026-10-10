@@ -7,7 +7,8 @@ import { SectionHead, Table, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminStudentsPage({ searchParams }: { searchParams: { q?: string } }) {
+export default async function AdminStudentsPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
   await requireAdmin();
   const db = createAdminClient();
   const q = (searchParams.q ?? '').trim();

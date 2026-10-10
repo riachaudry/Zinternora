@@ -5,7 +5,8 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { shortDate } from '@/lib/dates';
 
 export const dynamic = 'force-dynamic';
-export function generateMetadata({ params }: { params: { username: string } }) {
+export async function generateMetadata(props: { params: Promise<{ username: string }> }) {
+  const params = await props.params;
   return { title: `${params.username} · Public profile` };
 }
 
@@ -14,7 +15,8 @@ export function generateMetadata({ params }: { params: { username: string } }) {
  * only ever shows the fields below — never email, phone, WhatsApp, date of
  * birth, payments or submissions.
  */
-export default async function PublicProfilePage({ params }: { params: { username: string } }) {
+export default async function PublicProfilePage(props: { params: Promise<{ username: string }> }) {
+  const params = await props.params;
   const db = createAdminClient();
 
   const { data: profile } = await db.from('profiles')

@@ -8,7 +8,8 @@ export const dynamic = 'force-dynamic';
 
 const TABS = ['active', 'completed', 'pending', 'terminated', 'all'] as const;
 
-export default async function AdminInternshipsPage({ searchParams }: { searchParams: { tab?: string } }) {
+export default async function AdminInternshipsPage(props: { searchParams: Promise<{ tab?: string }> }) {
+  const searchParams = await props.searchParams;
   await requireAdmin();
   const tab = (TABS.includes(searchParams.tab as any) ? searchParams.tab : 'active') as typeof TABS[number];
   const db = createAdminClient();

@@ -5,7 +5,8 @@ import { SectionHead, Card, Badge, Alert, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminRoadmapsPage({ searchParams }: { searchParams: { field?: string; duration?: string } }) {
+export default async function AdminRoadmapsPage(props: { searchParams: Promise<{ field?: string; duration?: string }> }) {
+  const searchParams = await props.searchParams;
   await requireAdmin();
   const db = createAdminClient();
 

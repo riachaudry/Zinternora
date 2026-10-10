@@ -7,14 +7,17 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return ROADMAPS.map((f) => ({ slug: f.slug }));
 }
-export function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const field = roadmapBySlug(params.slug);
   return { title: field?.name ?? 'Internship' };
 }
 
-export default function FieldPage({
-  params, searchParams,
-}: { params: { slug: string }; searchParams: { duration?: string } }) {
+export default async function FieldPage(
+  props: { params: Promise<{ slug: string }>; searchParams: Promise<{ duration?: string }> }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const field = roadmapBySlug(params.slug);
   if (!field) notFound();
 

@@ -8,7 +8,8 @@ export const dynamic = 'force-dynamic';
 
 const TABS = ['under_review', 'approved', 'revision_required', 'rejected', 'all'] as const;
 
-export default async function AdminSubmissionsPage({ searchParams }: { searchParams: { tab?: string } }) {
+export default async function AdminSubmissionsPage(props: { searchParams: Promise<{ tab?: string }> }) {
+  const searchParams = await props.searchParams;
   await requireAdmin();
   const tab = (TABS.includes(searchParams.tab as any) ? searchParams.tab : 'under_review') as typeof TABS[number];
   const db = createAdminClient();

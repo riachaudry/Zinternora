@@ -3,7 +3,8 @@ import { Card, Button } from '@/components/ui';
 
 export const metadata = { title: 'Verify a certificate' };
 
-export default function CertificateSearchPage({ searchParams }: { searchParams: { id?: string } }) {
+export default async function CertificateSearchPage(props: { searchParams: Promise<{ id?: string }> }) {
+  const searchParams = await props.searchParams;
   if (searchParams.id) redirect(`/verify/certificate/${encodeURIComponent(searchParams.id.trim())}`);
   return (
     <div className="wrap py-16">

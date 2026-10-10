@@ -6,7 +6,8 @@ import { hashIp } from '@/lib/ids';
 import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
-export function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return { title: `Verify ${params.id}` };
 }
 
@@ -15,7 +16,8 @@ export function generateMetadata({ params }: { params: { id: string } }) {
  * name, field, duration, dates, score and status. No contact details, no
  * submissions, no payment information.
  */
-export default async function VerifyCertificatePage({ params }: { params: { id: string } }) {
+export default async function VerifyCertificatePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const id = decodeURIComponent(params.id).trim().toUpperCase();
   const db = createAdminClient();
 
@@ -28,7 +30,7 @@ export default async function VerifyCertificatePage({ params }: { params: { id: 
     .eq('public_id', id)
     .maybeSingle();
 
-  const ip = headers().get('x-forwarded-for')?.split(',')[0] ?? '';
+  const ip = (await headers()).get('x-forwarded-for')?.split(',')[0] ?? '';
   await db.from('certificate_verifications').insert({
     certificate_id: (data as any)?.id ?? null,
     queried_id: id, found: !!data, ip_hash: ip ? hashIp(ip) : null,

@@ -17,7 +17,8 @@ const schema = z.object({
  * "Accepted" is recorded with reviewed_at/reviewed_by (status stays open until
  * payment is verified and the real start date is set, which activates it).
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const parsed = schema.safeParse(await req.json());

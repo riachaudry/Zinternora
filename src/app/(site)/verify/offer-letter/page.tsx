@@ -3,7 +3,8 @@ import { Card, Button } from '@/components/ui';
 
 export const metadata = { title: 'Verify an offer letter' };
 
-export default function OfferSearchPage({ searchParams }: { searchParams: { id?: string } }) {
+export default async function OfferSearchPage(props: { searchParams: Promise<{ id?: string }> }) {
+  const searchParams = await props.searchParams;
   if (searchParams.id) redirect(`/verify/offer-letter/${encodeURIComponent(searchParams.id.trim())}`);
   return (
     <div className="wrap py-16">

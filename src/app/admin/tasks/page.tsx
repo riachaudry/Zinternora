@@ -8,7 +8,8 @@ export const dynamic = 'force-dynamic';
 const TABS = ['active', 'under_review', 'overdue', 'approved', 'all'] as const;
 
 /** Live task instances across every internship (not the roadmap template). */
-export default async function AdminTasksPage({ searchParams }: { searchParams: { tab?: string; q?: string } }) {
+export default async function AdminTasksPage(props: { searchParams: Promise<{ tab?: string; q?: string }> }) {
+  const searchParams = await props.searchParams;
   await requireAdmin();
   const tab = (TABS.includes(searchParams.tab as any) ? searchParams.tab : 'active') as typeof TABS[number];
   const q = (searchParams.q ?? '').trim();

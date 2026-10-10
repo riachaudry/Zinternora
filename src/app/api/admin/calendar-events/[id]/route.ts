@@ -6,7 +6,8 @@ import { ok, fail, zodFail } from '../../../_lib';
 import { eventSchema } from '@/lib/validation';
 
 /** Edit an admin-managed calendar event (admin only). */
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const parsed = eventSchema.safeParse(await req.json());
@@ -24,7 +25,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 /** Delete an admin-managed calendar event (admin only). */
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const { error } = await createAdminClient().from('calendar_events').delete().eq('id', params.id);

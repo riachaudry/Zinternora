@@ -8,7 +8,8 @@ import { SubmitForm } from './SubmitForm';
 
 export const dynamic = 'force-dynamic';
 
-export default async function TaskPage({ params }: { params: { taskId: string } }) {
+export default async function TaskPage(props: { params: Promise<{ taskId: string }> }) {
+  const params = await props.params;
   const profile = await requireStudent();
   const supabase = createClient();
 

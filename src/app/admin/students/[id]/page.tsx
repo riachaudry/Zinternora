@@ -10,7 +10,8 @@ import { Card, StatCard, Table, StatusBadge, Badge, Progress } from '@/component
 
 export const dynamic = 'force-dynamic';
 
-export default async function StudentDetail({ params }: { params: { id: string } }) {
+export default async function StudentDetail(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await requireAdmin();
   const db = createAdminClient();
 

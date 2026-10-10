@@ -3,11 +3,13 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { shortDate } from '@/lib/dates';
 
 export const dynamic = 'force-dynamic';
-export function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return { title: `Verify ${params.id}` };
 }
 
-export default async function VerifyOfferLetterPage({ params }: { params: { id: string } }) {
+export default async function VerifyOfferLetterPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const id = decodeURIComponent(params.id).trim().toUpperCase();
   const { data } = await createAdminClient()
     .from('offer_letters')

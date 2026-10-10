@@ -11,7 +11,8 @@ const schema = z.object({
   status: z.enum(['open', 'in_progress', 'resolved', 'closed']).optional(),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const parsed = schema.safeParse(await req.json());

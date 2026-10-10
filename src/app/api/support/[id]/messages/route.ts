@@ -10,7 +10,8 @@ import { ok, fail, zodFail } from '../../../_lib';
 const schema = z.object({ body: z.string().min(2).max(4000) });
 
 /** Adds a reply to a ticket. Students may only reply to their own tickets. */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const user = await apiUser();
     if (!rateLimit(clientKey(req, 'ticket-reply'), 30).ok) {

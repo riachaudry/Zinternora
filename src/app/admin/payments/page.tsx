@@ -15,7 +15,8 @@ const FILTERS = [
   { value: 'all', label: 'All' },
 ];
 
-export default async function AdminPaymentsPage({ searchParams }: { searchParams: { status?: string } }) {
+export default async function AdminPaymentsPage(props: { searchParams: Promise<{ status?: string }> }) {
+  const searchParams = await props.searchParams;
   const brand = await getBrand();
   await requireAdmin();
   const filter = searchParams.status ?? 'pending';

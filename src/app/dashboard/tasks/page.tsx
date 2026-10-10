@@ -6,7 +6,8 @@ import { SectionHead, Table, StatusBadge, EmptyState, Button } from '@/component
 
 export const dynamic = 'force-dynamic';
 
-export default async function TasksPage({ searchParams }: { searchParams: { q?: string; status?: string } }) {
+export default async function TasksPage(props: { searchParams: Promise<{ q?: string; status?: string }> }) {
+  const searchParams = await props.searchParams;
   const profile = await requireStudent();
   const { tasks, weeks } = await loadStudentState(profile.id);
 
@@ -41,8 +42,8 @@ export default async function TasksPage({ searchParams }: { searchParams: { q?: 
           return (
             <Link key={s} href={`/dashboard/tasks?status=${s}`}
                   className={`rounded-lg px-3 py-1.5 text-[13px] font-semibold ${searchParams.status === s ? 'bg-ink text-white' : 'bg-white text-slate border border-mist-deep'}`}>
-              {s.replace(/_/g, ' ')} ({n})
-            </Link>
+              {s.replace(/_/g, ' ')}({n})
+                          </Link>
           );
         })}
       </div>

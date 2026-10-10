@@ -19,7 +19,8 @@ const schema = z.object({
  * Payment verification. Verifying is the single gate that activates an
  * internship — it is never automatic and never triggered by the student.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const admin = await apiAdmin();
     const parsed = schema.safeParse(await req.json());
