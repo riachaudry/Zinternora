@@ -1,6 +1,6 @@
 /** The three selectable dashboard themes. `classic` (Navy & Gold) is the default. */
 export const THEMES = [
-  { id: 'classic', label: 'Classic Navy & Gold', hint: 'Zinternora’s premium navy and gold look (default).' },
+  { id: 'classic', label: 'Classic Navy & Gold', hint: 'The Internora’s premium navy and gold look (default).' },
   { id: 'light', label: 'Light & Minimal', hint: 'Clean white, soft grey surfaces and subtle blue accents.' },
   { id: 'dark', label: 'Dark Mode', hint: 'Dark backgrounds with comfortable, high-contrast text.' },
 ] as const;

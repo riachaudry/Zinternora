@@ -1,5 +1,5 @@
-/* Zinternora service worker.
- * Purpose: lets the browser install Zinternora as an app and shows a friendly page when the device is offline.
+/* The Internora service worker.
+ * Purpose: lets the browser install The Internora as an app and shows a friendly page when the device is offline.
  * It deliberately caches NOTHING from the signed-in portal, so private student/admin data is never stored on the device
  * and nobody ever sees stale payment, task or document information. */
 const CACHE = 'internora-offline-v1';

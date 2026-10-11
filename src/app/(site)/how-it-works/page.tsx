@@ -21,7 +21,7 @@ export default function HowItWorksPage() {
     <div className="wrap py-16">
       <SectionHead
         eyebrow="End to end"
-        title="How an Zinternora internship actually runs"
+        title="How an Internora internship actually runs"
         body="Ten steps from registration to a verifiable certificate. Every date in the program is calculated from your own start date."
       />
 

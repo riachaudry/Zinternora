@@ -34,7 +34,7 @@ export function ThemePicker() {
   return (
     <Card className="p-5">
       <h2 className="font-display text-[15px] font-bold text-ink">Theme</h2>
-      <p className="mt-1 text-[13px] text-slate-light">Choose how your dashboard looks. Official documents always keep the classic Zinternora design.</p>
+      <p className="mt-1 text-[13px] text-slate-light">Choose how your dashboard looks. Official documents always keep the classic The Internora design.</p>
       <div role="radiogroup" aria-label="Dashboard theme" className="mt-4 grid gap-3 sm:grid-cols-3">
         {THEMES.map((t) => {
           const active = theme === t.id;

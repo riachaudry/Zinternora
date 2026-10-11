@@ -46,7 +46,7 @@ export default async function VerifyOfferLetterPage(props: { params: Promise<{ i
         <h1 className="mt-5 font-display text-3xl font-extrabold">{internship.profiles.full_name}</h1>
         <p className="mt-2 text-[16px] text-slate">
           was offered a place in the {internship.duration}-week {internship.internship_fields?.name} project-based
-          virtual internship at Zinternora.
+          virtual internship at The Internora.
         </p>
         <dl className="mt-7 grid grid-cols-2 gap-x-8 gap-y-5 rounded-xl bg-mist/60 p-6 sm:grid-cols-3">
           {[

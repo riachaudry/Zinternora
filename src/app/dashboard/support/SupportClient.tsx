@@ -93,7 +93,7 @@ export function SupportClient({ userId, tickets }: { userId: string; tickets: Ti
                         <div key={m.id}
                              className={`rounded-xl p-4 ${mine ? 'bg-mist/60' : 'border border-signal/30 bg-signal-light/30'}`}>
                           <p className="text-[12px] font-semibold uppercase tracking-wide text-slate-light">
-                            {mine ? 'You' : 'Zinternora'} · {when(m.created_at)}
+                            {mine ? 'You' : 'The Internora'} · {when(m.created_at)}
                           </p>
                           <p className="mt-1 whitespace-pre-line text-[14px] text-slate">{m.body}</p>
                         </div>

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getBrand } from '@/lib/settings';
 
-/** Web app manifest: makes Zinternora installable on phones (Add to Home Screen) and on laptops (Chrome/Edge "Install"). */
+/** Web app manifest: makes The Internora installable on phones (Add to Home Screen) and on laptops (Chrome/Edge "Install"). */
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
   const brand = await getBrand();
   return {

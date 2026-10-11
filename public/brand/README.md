@@ -1,4 +1,4 @@
-# Zinternora brand assets
+# The Internora brand assets
 
 | File | Use |
 | --- | --- |
@@ -11,7 +11,7 @@ The React component at `src/components/Logo.tsx` renders the same mark with a
 `variant` prop (`color`, `light`, `dark`) so documents and emails stay consistent.
 
 **Concept.** Three rising bars read as a growth sequence; the tallest is the "I"
-of Zinternora, and the diagonal tying them together forms the "N". No third-party
+of The Internora, and the diagonal tying them together forms the "N". No third-party
 marks, fonts or clip art are used — everything is drawn from primitives.
 
 **Clear space.** Keep at least the height of the badge's corner radius clear on

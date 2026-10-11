@@ -3,7 +3,7 @@ import type { Duration } from './brand';
 import { todayInTz } from './tz';
 
 /**
- * Week engine. Every date in Zinternora is derived from one stored start_date.
+ * Week engine. Every date in The Internora is derived from one stored start_date.
  * Nothing is hard-coded: week 1 is days 0-6, week 2 is days 7-13, and so on.
  */
 /** Parses 'yyyy-MM-dd' as a plain calendar date (no timezone shift); other inputs use normal Date parsing. */

@@ -21,7 +21,7 @@ export default async function ApplyPage() {
       <div className="space-y-5">
         <SectionHead title="Apply for an internship" />
         <Alert tone="info" title="You already have an application in progress">
-          Zinternora runs one internship per account at a time. Finish or cancel the current one before applying again.
+          The Internora runs one internship per account at a time. Finish or cancel the current one before applying again.
         </Alert>
         <Button href="/dashboard">Back to dashboard</Button>
       </div>

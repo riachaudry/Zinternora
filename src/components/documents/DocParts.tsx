@@ -47,7 +47,7 @@ export function PageArt({ symmetric = false }: { symmetric?: boolean }) {
   );
 }
 
-/* ---------------- logo: mortarboard + ZINTERNORA + LEARN | BUILD | GROW ---------------- */
+/* ---------------- logo: mortarboard + THE INTERNORA + LEARN | BUILD | GROW ---------------- */
 export function Cap({ size = 56 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
@@ -106,7 +106,7 @@ export function IdQr({ label, id, url, website }: { label: string; id: string; u
 }
 
 /* ---------------- gold seal ---------------- */
-export function Seal({ ribbon = false, size = 132, name = 'ZINTERNORA', mark = null }: { ribbon?: boolean; size?: number; name?: string; mark?: string | null }) {
+export function Seal({ ribbon = false, size = 132, name = 'THE INTERNORA', mark = null }: { ribbon?: boolean; size?: number; name?: string; mark?: string | null }) {
   const fs = Math.max(9, Math.min(15, Math.round(150 / Math.max(6, name.length))));
   const bumps = Array.from({ length: 40 }, (_, i) => {
     const a = (i / 40) * Math.PI * 2;

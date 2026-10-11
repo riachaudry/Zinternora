@@ -7,7 +7,7 @@ export default function VerifyIndexPage() {
     <div className="wrap py-16">
       <SectionHead
         eyebrow="Public verification"
-        title="Check an Zinternora document"
+        title="Check an Internora document"
         body="Every certificate and offer letter carries an ID. Anyone — an employer, a university, a recruiter — can check it here without an account."
       />
       <div className="mt-10 grid gap-5 md:grid-cols-2">

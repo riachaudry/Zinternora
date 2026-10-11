@@ -1,15 +1,15 @@
-/** Single source of truth for every piece of official Zinternora information. */
+/** Single source of truth for every piece of official The Internora information. */
 export const BRAND = {
-  name: 'Zinternora',
-  legalName: 'ZINTERNORA',
+  name: 'The Internora',
+  legalName: 'THE INTERNORA',
   tagline: 'Virtual Internships. Real Experience.',
   motto: 'LEARN | BUILD | GROW',
-  // Owner-supplied rose-gold emblem. `logoMark` = the Z symbol only (used next to the name); `logoSealMark` = navy version for the gold seal.
+  // Navy & gold graduation-cap emblem. `logoMark` = the symbol only (used next to the name); `logoSealMark` = navy version for the gold seal.
   logoMark: '/brand/zinternora-mark.png',
   logoSealMark: '/brand/zinternora-mark-navy.png',
   logoEmblem: '/brand/zinternora-emblem.png',
-  website: 'www.internora.com',
-  supportEmail: 'zinternorasupport@gmail.com',
+  website: 'www.theinternora.com',
+  supportEmail: 'theinternorasupport@gmail.com',
   description: 'Project-Based Virtual Internships & Career Experience',
   // Real signature images supplied by the owners (public/signatures). Set a value to null to leave the line blank for a wet signature.
   founder: { name: 'Faree Chaudhry', title: 'Founder & CEO', signatureImage: '/signatures/faree-chaudhry.png' as string | null },
@@ -30,7 +30,7 @@ export const TRUST_STATEMENTS = [
   'This is a project-based virtual internship program.',
   'Certificates are issued after meeting the published completion criteria.',
   'LORs are issued after successful completion and admin review.',
-  'Zinternora does not pay a stipend or salary and does not guarantee employment.',
+  'The Internora does not pay a stipend or salary and does not guarantee employment.',
 ] as const;
 
 export type Duration = 4;

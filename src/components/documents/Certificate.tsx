@@ -21,7 +21,7 @@ const WEEKS: { icon: Parameters<typeof Ico>[0]['name']; a: string; b: string }[]
   { icon: 'trophy', a: 'Final Project', b: '& Submission' },
 ];
 
-/** Certificate of Completion — A4 page in the approved Zinternora design. Uses the real completion date. */
+/** Certificate of Completion — A4 page in the approved The Internora design. Uses the real completion date. */
 export async function Certificate({ data, sample = false }: { data: CertificateData; verifyUrl?: string; sample?: boolean }) {
   const brand = await getBrand();
   return (

@@ -46,7 +46,7 @@ export default async function VerifyCertificatePage(props: { params: Promise<{ i
           </h1>
           <p className="prose-narrow mt-3">
             Check the ID against the printed certificate — they look like INT-CERT-2026-000001.
-            If the ID is correct and this page still shows nothing, the document was not issued by Zinternora.
+            If the ID is correct and this page still shows nothing, the document was not issued by The Internora.
           </p>
           <Button href="/verify/certificate" variant="secondary" className="mt-6">Try another ID</Button>
         </Card>
@@ -69,7 +69,7 @@ export default async function VerifyCertificatePage(props: { params: Promise<{ i
         <h1 className="mt-5 font-display text-3xl font-extrabold">{student.full_name}</h1>
         <p className="mt-2 text-[16px] text-slate">
           completed the {internship.duration}-week {internship.internship_fields?.name} project-based
-          virtual internship at Zinternora.
+          virtual internship at The Internora.
         </p>
 
         <dl className="mt-7 grid grid-cols-2 gap-x-8 gap-y-5 rounded-xl bg-mist/60 p-6 sm:grid-cols-3">
@@ -92,12 +92,12 @@ export default async function VerifyCertificatePage(props: { params: Promise<{ i
 
         {!valid && (
           <p className="mt-5 rounded-xl bg-danger-light px-5 py-3 text-[14px] font-semibold text-danger">
-            This certificate has been revoked by Zinternora and should not be accepted as valid.
+            This certificate has been revoked by The Internora and should not be accepted as valid.
           </p>
         )}
 
         <p className="mt-6 text-[13px] leading-relaxed text-slate-light">
-          Zinternora is an independent private training program. This certificate records completion
+          The Internora is an independent private training program. This certificate records completion
           of a project-based virtual internship and is not an accredited qualification.
           <Link href="/verify" className="ml-1 font-semibold text-signal hover:underline">Verify another document</Link>
         </p>

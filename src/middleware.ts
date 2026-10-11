@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   try { env = publicEnv('the website middleware'); }
   catch (e) {
     return new NextResponse(
-      `Zinternora setup problem: ${e instanceof Error ? e.message : 'environment variables are missing.'}`,
+      `The Internora setup problem: ${e instanceof Error ? e.message : 'environment variables are missing.'}`,
       { status: 500, headers: { 'content-type': 'text/plain; charset=utf-8' } },
     );
   }

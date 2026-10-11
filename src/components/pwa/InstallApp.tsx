@@ -5,7 +5,7 @@ import { useBrand } from '@/components/brand/BrandProvider';
 
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> };
 
-/** "Install Zinternora" card for Settings. Uses the browser's install prompt where available, and shows clear steps otherwise. */
+/** "Install The Internora" card for Settings. Uses the browser's install prompt where available, and shows clear steps otherwise. */
 export function InstallApp() {
   const brand = useBrand();
   const [prompt, setPrompt] = React.useState<InstallPromptEvent | null>(null);

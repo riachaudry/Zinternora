@@ -2,7 +2,9 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/Logo';
+import { SidebarBrand } from './SidebarBrand';
+import { Icon } from './Icon';
+import { THEMES, THEME_STORAGE_KEY, isTheme, type ThemeId } from '@/lib/theme';
 import { SidebarNav, type NavItem } from './SidebarNav';
 import { Avatar } from './Avatar';
 import { createClient } from '@/lib/supabase/client';
@@ -17,6 +19,24 @@ export function PortalHeader({ profile, unread, base, nav }: {
   const [drawer, setDrawer] = React.useState(false);
   const [menu, setMenu] = React.useState(false);
   const [q, setQ] = React.useState('');
+  const [theme, setTheme] = React.useState<ThemeId>('classic');
+  React.useEffect(() => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    if (isTheme(cur)) setTheme(cur);
+  }, []);
+  async function chooseTheme(t: ThemeId) {
+    setTheme(t);
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem(THEME_STORAGE_KEY, t); } catch { /* ignore */ }
+    try {
+      await fetch('/api/profile/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theme: t }) });
+    } catch { /* saved on this device only */ }
+  }
+  const CHIPS: { id: ThemeId; label: string; dot: string }[] = [
+    { id: 'classic', label: 'Navy & Gold', dot: 'bg-[#0B2D5B] ring-[#D4AF37]' },
+    { id: 'light', label: 'Light', dot: 'bg-white ring-slate-300' },
+    { id: 'dark', label: 'Dark', dot: 'bg-slate-900 ring-slate-500' },
+  ];
 
   async function signOut() {
     await createClient().auth.signOut();
@@ -28,7 +48,7 @@ export function PortalHeader({ profile, unread, base, nav }: {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-mist-deep bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-30 flex h-[72px] items-center gap-3 border-b border-mist-deep bg-white/95 px-4 backdrop-blur sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={() => setDrawer(true)}
@@ -40,21 +60,30 @@ export function PortalHeader({ profile, unread, base, nav }: {
           </svg>
         </button>
 
-        <Link href={base} className="lg:hidden"><Logo size={26} /></Link>
+        <span className="lg:hidden [&_span]:!text-ink"><Link href={base} className="font-display text-[16px] font-extrabold text-ink">The Internora</Link></span>
 
         <form
-          className="ml-auto hidden min-w-0 flex-1 max-w-sm sm:block lg:ml-0"
+          className="ml-auto hidden min-w-0 flex-1 max-w-md sm:block lg:ml-0"
           onSubmit={(e) => { e.preventDefault(); router.push(`${searchTarget}?q=${encodeURIComponent(q)}`); }}
         >
           <label className="sr-only" htmlFor="portal-search">Search</label>
           <input
             id="portal-search" value={q} onChange={(e) => setQ(e.target.value)}
             placeholder={base === '/admin' ? 'Search students…' : 'Search your tasks…'}
-            className="h-10 w-full rounded-xl border border-mist-deep bg-mist/50 px-3.5 text-[14px] outline-none focus:border-signal focus:bg-white"
+            className="h-11 w-full rounded-full border border-mist-deep bg-mist/60 px-4 text-[14px] outline-none focus:border-signal focus:bg-white"
           />
         </form>
 
         <div className="ml-auto flex items-center gap-1.5 sm:ml-4">
+          <div role="radiogroup" aria-label="Theme" className="mr-1 hidden items-center gap-1 rounded-full border border-mist-deep bg-mist/60 p-1 md:flex">
+            {CHIPS.map((c) => (
+              <button key={c.id} type="button" role="radio" aria-checked={theme === c.id} onClick={() => chooseTheme(c.id)}
+                      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold transition ${
+                        theme === c.id ? 'bg-[#0B2D5B] text-white shadow' : 'text-slate hover:text-ink'}`}>
+                <span className={`h-2.5 w-2.5 rounded-full ring-1 ${c.dot}`} />{c.label}
+              </button>
+            ))}
+          </div>
           <Link
             href={`${base}/notifications`}
             className="relative grid h-10 w-10 place-items-center rounded-lg text-slate hover:bg-mist hover:text-ink"
@@ -119,11 +148,11 @@ export function PortalHeader({ profile, unread, base, nav }: {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button type="button" aria-label="Close menu" onClick={() => setDrawer(false)}
                   className="absolute inset-0 bg-ink/40" />
-          <div className="absolute left-0 top-0 flex h-full w-[276px] flex-col bg-white">
-            <div className="flex h-16 items-center justify-between border-b border-mist-deep px-4">
-              <Logo size={28} />
+          <div className="absolute left-0 top-0 flex h-full w-[276px] flex-col bg-ink-deep">
+            <div className="flex h-[72px] items-center justify-between px-5">
+              <SidebarBrand href={base} />
               <button type="button" onClick={() => setDrawer(false)} aria-label="Close"
-                      className="grid h-9 w-9 place-items-center rounded-lg hover:bg-mist">
+                      className="grid h-9 w-9 place-items-center rounded-lg text-white hover:bg-white/10">
                 <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>

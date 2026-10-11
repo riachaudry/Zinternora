@@ -18,7 +18,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-mist-deep bg-white/90 backdrop-blur">
       <div className="wrap flex h-16 items-center justify-between gap-4">
-        <Link href="/" aria-label="Zinternora home"><Logo size={32} /></Link>
+        <Link href="/" aria-label="The Internora home"><Logo size={32} /></Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
           {LINKS.map((l) => (

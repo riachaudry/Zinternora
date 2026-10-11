@@ -16,7 +16,7 @@ export function DocumentSheet({
         <div className="flex items-center gap-3">
           <LogoMark size={46} />
           <div>
-            <p className="font-display text-2xl font-extrabold tracking-[-.02em] text-ink">ZINTERNORA</p>
+            <p className="font-display text-2xl font-extrabold tracking-[-.02em] text-ink">THE INTERNORA</p>
             <p className="text-[12px] font-medium text-slate-light">{BRAND.tagline}</p>
             <p className="text-[10.5px] font-bold tracking-[.18em] text-amber-dark">{BRAND.motto}</p>
           </div>
@@ -46,7 +46,7 @@ export function DocumentSheet({
           </div>
         </div>
         <p className="mt-6 text-[11px] leading-relaxed text-slate-light">
-          {footerNote ?? 'This document records participation in a project-based virtual internship program. Zinternora is an independent private program and is not affiliated with any government body or university.'}
+          {footerNote ?? 'This document records participation in a project-based virtual internship program. The Internora is an independent private program and is not affiliated with any government body or university.'}
         </p>
       </footer>
     </article>
@@ -56,7 +56,7 @@ export function DocumentSheet({
 /**
  * One signatory. A real handwritten signature is shown ONLY if the owner has supplied an image
  * and set its path in BRAND (lib/brand.ts). Otherwise a blank line is left for a wet signature.
- * Zinternora never draws or generates a signature.
+ * The Internora never draws or generates a signature.
  */
 function Signatory({ person }: { person: { name: string; title: string; signatureImage: string | null } }) {
   return (
@@ -69,7 +69,7 @@ function Signatory({ person }: { person: { name: string; title: string; signatur
       </div>
       <p className="text-[12px] font-semibold text-ink">{person.name}</p>
       <p className="text-[11px] text-slate-light">{person.title}</p>
-      <p className="text-[11px] text-slate-light">Zinternora</p>
+      <p className="text-[11px] text-slate-light">The Internora</p>
     </div>
   );
 }

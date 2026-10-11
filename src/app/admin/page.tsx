@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { requireAdmin } from '@/lib/auth';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { longDate, shortDate } from '@/lib/dates';
-import { formatPKR } from '@/lib/brand';
-import { Card, StatCard, SectionHead, Button, StatusBadge, Table, Alert } from '@/components/ui';
+import { formatPKR, BRAND } from '@/lib/brand';
+import { Card, Button, StatusBadge, Table, Alert } from '@/components/ui';
+import { Hero, PastelStat, QuickAction } from '@/components/portal/widgets';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,14 +43,11 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <SectionHead eyebrow={longDate()} title={`Welcome back, ${profile.full_name.split(' ')[0]}`}
-                     body="Payment verification and submission review are handled here. Tasks and weeks progress automatically; manual unlock is available only when you need to intervene." />
-        <div className="flex flex-wrap gap-2">
-          <Button href="/admin/payments" size="sm">Verify payments</Button>
-          <Button href="/admin/submissions" size="sm" variant="secondary">Review submissions</Button>
-        </div>
-      </div>
+      <Hero
+        title={`Welcome back, ${BRAND.hrManager.name.split(' ')[0]}!`}
+        body={`${longDate()}. Payment verification and submission review are handled here. Tasks and weeks progress automatically; manual unlock is available only when you need to intervene.`}
+        action={{ href: '/admin/payments', label: 'Verify payments' }}
+      />
 
       {(pendingPayments.count ?? 0) > 0 && (
         <Alert tone="warn" title={`${pendingPayments.count} payment${pendingPayments.count === 1 ? '' : 's'} waiting for verification`}>
@@ -59,15 +57,22 @@ export default async function AdminDashboard() {
         </Alert>
       )}
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Students" value={students.count ?? 0} />
-        <StatCard label="Applications" value={applications.count ?? 0} />
-        <StatCard label="Payments to verify" value={pendingPayments.count ?? 0} tone={(pendingPayments.count ?? 0) > 0 ? 'warn' : 'neutral'} />
-        <StatCard label="Verified payments" value={formatPKR(verifiedTotal)} hint="Total received" tone="accent" />
-        <StatCard label="Active internships" value={activeInternships.count ?? 0} />
-        <StatCard label="Completed" value={completedInternships.count ?? 0} />
-        <StatCard label="Submissions to review" value={pendingReviews.count ?? 0} tone={(pendingReviews.count ?? 0) > 0 ? 'warn' : 'neutral'} />
-        <StatCard label="Open tickets" value={openTickets.count ?? 0} />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <PastelStat color="blue" icon="users" label="Students" value={students.count ?? 0} />
+        <PastelStat color="purple" icon="file" label="Applications" value={applications.count ?? 0} />
+        <PastelStat color="gold" icon="card" label="Payments to verify" value={pendingPayments.count ?? 0} />
+        <PastelStat color="green" icon="card" label="Verified payments" value={formatPKR(verifiedTotal)} hint="Total received" />
+        <PastelStat color="teal" icon="briefcase" label="Active internships" value={activeInternships.count ?? 0} />
+        <PastelStat color="green" icon="award" label="Completed" value={completedInternships.count ?? 0} />
+        <PastelStat color="pink" icon="upload" label="Submissions to review" value={pendingReviews.count ?? 0} />
+        <PastelStat color="blue" icon="help" label="Open tickets" value={openTickets.count ?? 0} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <QuickAction href="/admin/payments" icon="card" label="Verify Payments" />
+        <QuickAction href="/admin/submissions" icon="upload" label="Review Submissions" />
+        <QuickAction href="/admin/students" icon="users" label="Students" />
+        <QuickAction href="/admin/certificates" icon="award" label="Certificates" />
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">

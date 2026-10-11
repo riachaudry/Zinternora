@@ -8,9 +8,9 @@ export default async function AboutPage() {
   return (
     <div className="wrap py-16">
       <SectionHead
-        eyebrow="About Zinternora"
+        eyebrow="About The Internora"
         title="Structured practice, reviewed by a person"
-        body="Zinternora runs project-based virtual internships for students, fresh graduates and career changers. The programs exist to close one specific gap: people finish a degree or a course and still have nothing concrete to show an employer."
+        body="The Internora runs project-based virtual internships for students, fresh graduates and career changers. The programs exist to close one specific gap: people finish a degree or a course and still have nothing concrete to show an employer."
       />
 
       <div className="mt-10 grid gap-5 lg:grid-cols-2">
@@ -26,7 +26,7 @@ export default async function AboutPage() {
         <Card className="p-6">
           <h2 className="font-display text-lg font-bold">What we are not</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-slate">
-            Zinternora is an independent private training program. It is not affiliated with any
+            The Internora is an independent private training program. It is not affiliated with any
             government body or university, it is not an accredited institution, and it does not
             place people into jobs. Completing a program gives you reviewed project work and a
             verifiable record of it — nothing more, and nothing less.

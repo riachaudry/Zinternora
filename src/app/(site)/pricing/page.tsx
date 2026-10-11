@@ -64,7 +64,7 @@ export default async function PricingPage() {
         <Card className="p-6">
           <h3 className="font-display text-lg font-bold">What the fee is not</h3>
           <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate">
-            <li>Not a placement fee — Zinternora does not guarantee employment.</li>
+            <li>Not a placement fee — The Internora does not guarantee employment.</li>
             <li>Not tuition for an accredited qualification.</li>
           </ul>
           <Alert tone="warn" title="Refunds">

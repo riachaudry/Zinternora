@@ -94,7 +94,7 @@ export function ApplyForm({ fields }: { fields: Field[] }) {
           </dl>
 
           <p className="mt-4 text-[12px] leading-relaxed text-slate-light">
-            This is a project-based virtual internship. Zinternora does not pay a stipend or salary and does not guarantee employment.
+            This is a project-based virtual internship. The Internora does not pay a stipend or salary and does not guarantee employment.
           </p>
 
           {error && <div className="mt-4"><Alert tone="bad">{error}</Alert></div>}

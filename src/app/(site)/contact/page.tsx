@@ -9,7 +9,7 @@ export default async function ContactPage() {
     <div className="wrap py-16">
       <SectionHead
         eyebrow="Get in touch"
-        title="Contact Zinternora"
+        title="Contact The Internora"
         body="WhatsApp is the fastest route for anything before you apply. Once you are enrolled, open a support ticket from your dashboard so your question is attached to your record."
       />
 

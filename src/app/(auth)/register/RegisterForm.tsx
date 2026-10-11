@@ -136,7 +136,7 @@ export function RegisterForm({
             <input type="checkbox" required className="mt-0.5 h-4 w-4 rounded border-mist-deep text-signal" />
             <span>
               I understand this is a project-based virtual internship program, that certificates and letters
-              are issued only after the completion criteria are met, and that Zinternora does not pay a
+              are issued only after the completion criteria are met, and that The Internora does not pay a
               stipend or salary and does not guarantee employment.
             </span>
           </label>

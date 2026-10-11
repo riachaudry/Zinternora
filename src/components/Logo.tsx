@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useBrand } from '@/components/brand/BrandProvider';
 
-/** Premium Zinternora mark: graduation cap + open book/leaf, representing learning, building and growth. */
+/** Premium The Internora mark: graduation cap + open book/leaf, representing learning, building and growth. */
 export function LogoMark({ size = 36, variant = 'color' }: { size?: number; variant?: 'color' | 'light' | 'dark' }) {
   const navy = variant === 'light' ? '#FFFFFF' : '#0B2D5B';
   const gold = '#D4AF37';

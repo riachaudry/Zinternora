@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PortalShell } from '@/components/portal/PortalShell';
 import { ThemeSync } from '@/components/theme/ThemeSync';
 
-export const metadata: Metadata = { title: 'Admin · Zinternora' };
+export const metadata: Metadata = { title: 'Admin · The Internora' };
 export const dynamic = 'force-dynamic';
 
 const NAV = [

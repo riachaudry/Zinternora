@@ -4,11 +4,15 @@ import { createClient } from '@/lib/supabase/server';
 import { loadStudentState, stageOf, taskProgress } from '@/lib/services/student';
 import { longDate, shortDate, isOverdue } from '@/lib/dates';
 import { formatPKR, PLANS, type Duration } from '@/lib/brand';
-import { Card, StatCard, Badge, StatusBadge, Progress, Button, Alert, EmptyState } from '@/components/ui';
+import { Card, Badge, StatusBadge, Progress, Button, Alert, EmptyState } from '@/components/ui';
+import { Hero, PastelStat, MiniCalendar, QuickAction, ProgressRing } from '@/components/portal/widgets';
+import { Icon } from '@/components/portal/Icon';
 
 export const dynamic = 'force-dynamic';
 
-export default async function DashboardHome() {
+export default async function DashboardHome({ searchParams }: { searchParams?: Promise<{ m?: string }> }) {
+  const sp = (await searchParams) ?? {};
+  const monthOffset = Math.max(-24, Math.min(24, parseInt(sp.m ?? '0', 10) || 0));
   const profile = await requireStudent();
   const state = await loadStudentState(profile.id);
   const stage = stageOf(state);
@@ -28,36 +32,17 @@ export default async function DashboardHome() {
     .filter((t) => !['approved', 'locked'].includes(t.status))
     .sort((a, b) => a.deadline.localeCompare(b.deadline))
     .slice(0, 4);
+  const deadlineDays = tasks.map((t) => t.deadline);
+  const firstName = profile.full_name.split(' ')[0];
+  const doc = (ok: boolean) => (ok ? 'Issued' : 'Not yet');
 
   return (
     <div className="space-y-6">
-      {/* TODAY — always the live system date, never a stored one. */}
-      <Card className="flex flex-wrap items-center justify-between gap-5 p-5">
-        <div>
-          <p className="text-[12px] font-semibold uppercase tracking-wide text-slate-light">Today</p>
-          <p className="mt-1 font-display text-xl font-extrabold text-ink sm:text-2xl">{longDate()}</p>
-          <p className="mt-1 text-[14px] text-slate">
-            Welcome back, {profile.full_name.split(' ')[0]}
-            {profile.student_id && <> · <span className="font-mono text-[13px]">{profile.student_id}</span></>}
-          </p>
-        </div>
-        {clock && internship?.start_date ? (
-          <div className="flex gap-6">
-            <div>
-              <p className="text-[12px] font-semibold text-slate-light">Progress</p>
-              <p className="font-display text-xl font-extrabold text-ink">
-                Day {Math.min(clock.day, clock.totalDays)} of {clock.totalDays}
-              </p>
-            </div>
-            <div>
-              <p className="text-[12px] font-semibold text-slate-light">Days remaining</p>
-              <p className="font-display text-xl font-extrabold text-signal">{clock.remaining}</p>
-            </div>
-          </div>
-        ) : (
-          <Badge tone="info">No active internship yet</Badge>
-        )}
-      </Card>
+      <Hero
+        title={`Welcome back, ${firstName}!`}
+        body="Your journey to a brighter future continues. Stay consistent and keep building amazing skills!"
+        action={{ href: '/dashboard/internship', label: 'View My Internship' }}
+      />
 
       {stage === 'no_application' && (
         <EmptyState
@@ -97,95 +82,129 @@ export default async function DashboardHome() {
         </Alert>
       )}
 
-      {/* Status cards */}
+      {/* Pastel stat cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Internship status"
-                  value={internship ? internship.status.replace(/^\w/, (c: string) => c.toUpperCase()) : 'Not started'}
-                  tone={internship?.status === 'active' ? 'good' : 'neutral'} />
-        <StatCard label="Selected field" value={field ?? '—'} />
-        <StatCard label="Duration" value={internship ? `${internship.duration} weeks` : application ? `${application.duration} weeks` : '—'} />
-        <StatCard label="Current week"
-                  value={internship?.current_week ? `Week ${internship.current_week}` : '—'}
-                  hint={activeWeek ? activeWeek.title : undefined} />
-        <StatCard label="Start date" value={internship?.start_date ? shortDate(internship.start_date) : '—'} />
-        <StatCard label="End date" value={internship?.end_date ? shortDate(internship.end_date) : '—'} />
-        <StatCard label="Tasks completed" value={`${progress.approved} / ${progress.total || '—'}`} tone="good" />
-        <StatCard label="Tasks pending" value={progress.pending} tone={progress.pending ? 'warn' : 'neutral'} />
-        <StatCard label="Overall score" value={internship ? Number(internship.overall_score ?? 0).toFixed(1) : '—'}
-                  hint="Weekly work and final project" />
-        <StatCard label="Offer letter" value={docs?.offer ? 'Issued' : 'Pending'} tone={docs?.offer ? 'good' : 'neutral'} />
-        <StatCard label="Certificate" value={docs?.certificate ? 'Issued' : 'Not yet issued'}
-                  tone={docs?.certificate ? 'good' : 'neutral'} />
-        <StatCard label="Letter of recommendation" value={docs?.lor?.status === 'issued' ? 'Issued' : 'Not yet issued'}
-                  tone={docs?.lor?.status === 'issued' ? 'good' : 'neutral'} />
+        <PastelStat color="blue" icon="cap" label="Internship Status"
+                    value={internship ? internship.status.replace(/^\w/, (c: string) => c.toUpperCase()) : 'Not Started'}
+                    hint={internship ? (field ?? undefined) : 'Apply to begin your journey'} />
+        <PastelStat color="pink" icon="check" label="Total Tasks"
+                    value={`${progress.approved} / ${progress.total || 16}`}
+                    hint={`Tasks across ${weeks.length || 4} weeks`} />
+        <PastelStat color="green" icon="clock" label="Days Remaining"
+                    value={clock ? `${clock.remaining} Days` : `${(application?.duration ?? 4) * 7} Days`}
+                    hint="Until completion" />
+        <PastelStat color="purple" icon="chart" label="Progress"
+                    value={`${progress.percent}%`}
+                    hint={progress.percent ? 'Keep going!' : 'Keep going!'} />
       </div>
 
-      {internship && (
-        <Card className="p-5">
-          <Progress value={progress.percent} label="Overall internship progress" />
-          <div className="mt-5 flex flex-wrap gap-1.5">
-            {weeks.map((w) => (
-              <span key={w.id}
-                    className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold ${
-                      w.status === 'completed' ? 'bg-signal-light text-signal-dark'
-                      : w.status === 'active' ? 'bg-ink text-white'
-                      : 'bg-mist text-slate-light'}`}>
-                {w.status === 'completed' ? '✓ ' : w.status === 'locked' ? '🔒 ' : '● '}
-                {w.is_final ? 'Final project' : `Week ${w.week_number}`}
-              </span>
-            ))}
-          </div>
-        </Card>
-      )}
-
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* TODAY'S STATUS */}
-        <Card className="p-5 lg:col-span-2">
-          <h2 className="font-display text-lg font-bold">Today&rsquo;s status</h2>
-          {internship && clock ? (
-            <>
-              <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
-                <Row label="Date" value={longDate()} />
-                <Row label="Internship" value={field ?? '—'} />
-                <Row label="Week" value={activeWeek ? `${activeWeek.week_number}${activeWeek.is_final ? ' (final)' : ''}` : '—'} />
-                <Row label="Day" value={`${Math.min(clock.day, clock.totalDays)}`} />
-                <Row label="Status" value={<StatusBadge status={internship.status} />} />
-                <Row label="Tasks available" value={tasks.filter((t) => ['available', 'in_progress', 'revision_required'].includes(t.status)).length} />
-              </dl>
-
-              <h3 className="mt-7 text-[13px] font-semibold text-slate-light">Nearest deadlines</h3>
-              {dueSoon.length ? (
-                <ul className="mt-2 divide-y divide-mist">
-                  {dueSoon.map((t) => (
-                    <li key={t.id} className="flex flex-wrap items-center justify-between gap-3 py-2.5">
-                      <Link href={`/dashboard/tasks/${t.id}`} className="min-w-0">
-                        <p className="truncate text-[14px] font-semibold text-ink">{t.title}</p>
-                        <p className="font-mono text-[12px] text-slate-light">{t.task_code}</p>
-                      </Link>
-                      <div className="flex items-center gap-2">
-                        <span className={`text-[13px] ${isOverdue(t.deadline) ? 'font-semibold text-danger' : 'text-slate'}`}>
-                          {shortDate(t.deadline)}
-                        </span>
-                        <StatusBadge status={isOverdue(t.deadline) && t.status !== 'approved' ? 'overdue' : t.status} />
-                      </div>
+        <div className="space-y-6 lg:col-span-2">
+          {/* Journey stepper */}
+          <Card className="p-5 sm:p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 font-display text-[16px] font-bold text-ink"><Icon name="calendar" size={18} className="text-[#1D4ED8]" /> {weeks.length || 4}-Week Internship Journey</h2>
+              <Link href="/dashboard/roadmap" className="text-[13px] font-semibold text-signal">Roadmap</Link>
+            </div>
+            {weeks.length ? (
+              <ol className="mt-6 grid gap-5" style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0,1fr))` }}>
+                {weeks.map((w, i) => {
+                  const done = w.status === 'completed', active = w.status === 'active';
+                  return (
+                    <li key={w.id} className="relative text-center">
+                      {i < weeks.length - 1 && (
+                        <span aria-hidden="true" className="absolute left-1/2 top-5 h-0.5 w-full"
+                              style={{ background: done ? '#16A34A' : 'rgb(var(--mist-deep))' }} />
+                      )}
+                      <span className="relative mx-auto grid h-10 w-10 place-items-center rounded-full text-[14px] font-bold"
+                            style={done ? { background: '#16A34A', color: '#fff' }
+                              : active ? { background: '#0B2D5B', color: '#fff', boxShadow: '0 0 0 4px #D4AF3755' }
+                              : { background: 'rgb(var(--mist))', color: 'rgb(var(--slate-light))' }}>
+                        {done ? <Icon name="check" size={16} /> : w.is_final ? <Icon name="award" size={16} /> : w.week_number}
+                      </span>
+                      <p className="mt-2 text-[12.5px] font-semibold text-ink">{w.is_final ? 'Final project' : `Week ${w.week_number}`}</p>
+                      <p className="line-clamp-2 text-[11.5px] text-slate">{w.title}</p>
                     </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="mt-2 text-[14px] text-slate-light">Nothing outstanding right now.</p>
-              )}
-            </>
-          ) : (
-            <p className="mt-3 text-[14px] text-slate-light">
-              Your daily status appears here once an admin verifies your payment and activates the internship.
-            </p>
-          )}
-        </Card>
+                  );
+                })}
+              </ol>
+            ) : (
+              <p className="mt-3 text-[14px] text-slate-light">Your weekly roadmap appears here once your internship starts.</p>
+            )}
+            <p className="mt-6 text-center text-[12.5px] text-slate-light">Weekly Tasks • Real Projects • Certificate &amp; LOR on Completion</p>
+          </Card>
+
+          {/* Upcoming deadlines */}
+          <Card className="p-5 sm:p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="font-display text-[16px] font-bold text-ink">Upcoming deadlines</h2>
+              <Link href="/dashboard/tasks" className="text-[13px] font-semibold text-signal">All tasks</Link>
+            </div>
+            {internship && dueSoon.length ? (
+              <ul className="mt-3 divide-y divide-mist">
+                {dueSoon.map((t, i) => (
+                  <li key={t.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                    <Link href={`/dashboard/tasks/${t.id}`} className="flex min-w-0 items-center gap-3">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl" style={{ background: ['#FDE3D3', '#DDF5E6', '#DFEAFD', '#EBDDFB'][i % 4], color: ['#C2410C', '#15803D', '#1D4ED8', '#6D28D9'][i % 4] }}><Icon name="clock" size={16} /></span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-[14px] font-semibold text-ink">{t.title}</span>
+                        <span className="font-mono text-[12px] text-slate-light">{t.task_code}</span>
+                      </span>
+                    </Link>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[13px] ${isOverdue(t.deadline) ? 'font-semibold text-danger' : 'text-slate'}`}>{shortDate(t.deadline)}</span>
+                      <StatusBadge status={isOverdue(t.deadline) && t.status !== 'approved' ? 'overdue' : t.status} />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-[14px] text-slate-light">
+                {internship ? 'Nothing outstanding right now.' : 'Your deadlines appear here once the internship is active.'}
+              </p>
+            )}
+          </Card>
+
+          {/* Quick actions */}
+          <div>
+            <h2 className="mb-3 font-display text-[16px] font-bold text-ink">Quick actions</h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <QuickAction color="blue" href="/dashboard/tasks" icon="file" label="View Tasks" />
+              <QuickAction color="cyan" href="/dashboard/submissions" icon="upload" label="Submit Work" />
+              <QuickAction color="purple" href="/dashboard/calendar" icon="calendar" label="View Calendar" />
+              <QuickAction color="peach" href="/dashboard/support" icon="help" label="Get Help" />
+            </div>
+          </div>
+        </div>
 
         <div className="space-y-6">
+          <ProgressRing percent={progress.percent} started={!!internship && progress.percent > 0}
+                        caption={internship ? `${progress.approved} of ${progress.total || 0} tasks approved.` : 'Start your internship to view your progress.'}
+                        href="/dashboard/roadmap" />
+          <MiniCalendar marked={deadlineDays} href="/dashboard/calendar" offset={monthOffset} basePath="/dashboard" />
+
+          <Card className="p-5">
+            <h2 className="font-display text-[15px] font-bold text-ink">Completion Documents</h2>
+            <ul className="mt-3 space-y-2.5">
+              {[
+                { label: 'Offer letter', ok: !!docs?.offer, href: '/dashboard/offer-letter', icon: 'file' },
+                { label: 'Certificate', ok: !!docs?.certificate, href: '/dashboard/certificate', icon: 'award' },
+                { label: 'Letter of recommendation', ok: docs?.lor?.status === 'issued', href: '/dashboard/lor', icon: 'mail' },
+              ].map((d) => (
+                <li key={d.label}>
+                  <Link href={d.href} className="flex items-center gap-3 rounded-xl border border-mist-deep p-3 hover:bg-mist/60">
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-[#E8F0FE] text-[#1D4ED8]"><Icon name={d.icon} size={16} /></span>
+                    <span className="flex-1 text-[13.5px] font-semibold text-ink">{d.label}</span>
+                    <Badge tone={d.ok ? 'good' : 'neutral'}>{doc(d.ok)}</Badge>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Card>
+
           <Card className="p-5">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-lg font-bold">Notifications</h2>
+              <h2 className="font-display text-[15px] font-bold text-ink">Notifications</h2>
               <Link href="/dashboard/notifications" className="text-[13px] font-semibold text-signal">All</Link>
             </div>
             {recent?.length ? (
@@ -206,7 +225,6 @@ export default async function DashboardHome() {
               <p className="mt-3 text-[14px] text-slate-light">Nothing yet.</p>
             )}
           </Card>
-
         </div>
       </div>
     </div>

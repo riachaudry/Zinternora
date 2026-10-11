@@ -1,7 +1,7 @@
 import { appTimezone } from './env';
 
 /**
- * Timezone helpers. Everything date-based in Zinternora (deadlines, "today" on
+ * Timezone helpers. Everything date-based in The Internora (deadlines, "today" on
  * the calendar, overdue checks) uses the one timezone from APP_TIMEZONE
  * (default Asia/Karachi), not the server's or the browser's own clock zone.
  */

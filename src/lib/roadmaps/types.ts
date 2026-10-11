@@ -33,7 +33,7 @@ export type FieldRoadmap = {
 };
 
 /**
- * The public Zinternora programme is a 1-month / 4-week internship.
+ * The public The Internora programme is a 1-month / 4-week internship.
  * Each domain's first four roadmap weeks are used in order:
  * Week 1 -> Week 2 -> Week 3 -> Week 4 (final project week).
  */

@@ -44,7 +44,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
 
     if (isAdmin) {
       await notify(ticket.student_id, 'support_reply',
-        `Zinternora replied to your ticket: ${ticket.subject}`, '/dashboard/support');
+        `The Internora replied to your ticket: ${ticket.subject}`, '/dashboard/support');
     } else {
       const { data: admins } = await createAdminClient().from('profiles').select('id').eq('role', 'admin');
       await notifyMany((admins ?? []).map((a) => a.id), 'support_reply',
