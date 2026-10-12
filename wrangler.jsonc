@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "zinternora",
   "keep_vars": true,
+  "observability": { "enabled": true },
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-25",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
