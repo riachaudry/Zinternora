@@ -6,7 +6,7 @@ import { getBrand } from '@/lib/settings';
 const COLUMNS = [
   { title: 'Program', links: [['Internships', '/internships'], ['How it works', '/how-it-works'], ['Pricing', '/pricing']] },
   { title: 'Verify', links: [['Verify a certificate', '/verify/certificate'], ['Verify an offer letter', '/verify/offer-letter'], ['FAQ', '/faq']] },
-  { title: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['Sign in', '/login'], ['Apply now', '/register']] },
+  { title: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['Sign in', '/login'], ['Apply now', '/register'], ['Privacy Policy', '/privacy'], ['Terms of Service', '/terms']] },
 ];
 
 export async function Footer() {
