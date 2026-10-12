@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { requireStudent } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getBrand } from '@/lib/settings';
 import { ThemeSync } from '@/components/theme/ThemeSync';
 
 export const metadata: Metadata = { title: 'Student Dashboard · The Internora' };
@@ -42,6 +43,7 @@ const NAV = [
     items: [
       { href: '/dashboard/notifications', label: 'Notifications' },
       { href: '/dashboard/support', label: 'Support' },
+      { href: 'HR_LINK', label: 'Contact HR', external: true },
       { href: '/dashboard/settings', label: 'Settings' },
     ],
   },
@@ -49,6 +51,7 @@ const NAV = [
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const profile = await requireStudent();
+  const brand = await getBrand();
   const supabase = createClient();
   // Both lookups run at the same time (one round trip instead of two). The theme lookup tolerates the optional `theme` column not existing yet.
   const [{ count }, { data: themeRow }] = await Promise.all([
@@ -60,7 +63,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const nav = NAV.map((section) => ({
     ...section,
     items: section.items.map((item) =>
-      item.href === '/dashboard/notifications' ? { ...item, badge: count ?? 0 } : item),
+      item.href === '/dashboard/notifications' ? { ...item, badge: count ?? 0 }
+      : item.href === 'HR_LINK' ? { ...item, href: brand.hrWhatsappLink, label: `Contact HR ${brand.hrName.split(' ')[0]}` }
+      : item),
   }));
 
   return (

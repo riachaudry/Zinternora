@@ -7,6 +7,7 @@ import { formatPKR, PLANS, type Duration } from '@/lib/brand';
 import { Card, Badge, StatusBadge, Progress, Button, Alert, EmptyState } from '@/components/ui';
 import { Hero, PastelStat, MiniCalendar, QuickAction, ProgressRing } from '@/components/portal/widgets';
 import { Icon } from '@/components/portal/Icon';
+import { getBrand } from '@/lib/settings';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,7 @@ export default async function DashboardHome({ searchParams }: { searchParams?: P
   const profile = await requireStudent();
   const state = await loadStudentState(profile.id);
   const stage = stageOf(state);
+  const brand = await getBrand();
   const { internship, weeks, tasks, docs, clock, application, payment } = state;
   const field = (internship?.internship_fields as any)?.name
     ?? (application?.internship_fields as any)?.name
@@ -79,6 +81,13 @@ export default async function DashboardHome({ searchParams }: { searchParams?: P
         <Alert tone="bad" title={`Payment ${payment.status.replace(/_/g, ' ')}`}>
           {payment.admin_note ?? 'Check your payment details and submit again.'}{' '}
           <Link href="/dashboard/payment" className="font-semibold underline">Open payment page</Link>
+        </Alert>
+      )}
+
+      {internship && weeks.length > 0 && !activeWeek && progress.approved === 0 && (
+        <Alert tone="good" title="Your offer letter is ready — Week 1 opens soon">
+          Your internship is confirmed. HR will open your Week 1 tasks shortly and you will get a notification.
+          Meanwhile you can read your <Link href="/dashboard/offer-letter" className="font-semibold underline">offer letter</Link>.
         </Alert>
       )}
 
@@ -172,7 +181,7 @@ export default async function DashboardHome({ searchParams }: { searchParams?: P
               <QuickAction color="blue" href="/dashboard/tasks" icon="file" label="View Tasks" />
               <QuickAction color="cyan" href="/dashboard/submissions" icon="upload" label="Submit Work" />
               <QuickAction color="purple" href="/dashboard/calendar" icon="calendar" label="View Calendar" />
-              <QuickAction color="peach" href="/dashboard/support" icon="help" label="Get Help" />
+              <QuickAction color="peach" href={brand.hrWhatsappLink} external icon="chat" label={`Contact HR ${brand.hrName.split(' ')[0]}`} />
             </div>
           </div>
         </div>

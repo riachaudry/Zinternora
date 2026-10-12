@@ -99,8 +99,6 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
             <div className="mt-4 flex flex-wrap gap-2">
               <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'recompute' }} label="Recompute scores" />
               <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'refresh_overdue' }} label="Refresh overdue" />
-              <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'unlock_next', after_week: internship.current_week }}
-                            label="Unlock next week" confirm="Unlock the next week for this student?" />
               <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'complete' }}
                             label="Mark completed" variant="primary" confirm="Mark this internship as completed?" />
             </div>
@@ -110,13 +108,22 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
             <div className="border-b border-mist px-5 py-4">
               <h2 className="font-display text-[15px] font-bold text-ink">Weeks</h2>
             </div>
-            <Table head={['Week', 'Title', 'Window', 'Status']}>
+            <Table head={['Week', 'Title', 'Window', 'Status', 'Action']}>
               {(weeks ?? []).map((w) => (
                 <tr key={w.id} className="border-t border-mist">
                   <td className="px-4 py-3 text-[13.5px] font-semibold text-ink">{w.is_final ? 'Final' : w.week_number}</td>
                   <td className="px-4 py-3 text-[13.5px] text-slate">{w.title}</td>
                   <td className="px-4 py-3 text-[13px] text-slate-light">{shortDate(w.start_date)} — {shortDate(w.end_date)}</td>
-                  <td className="px-4 py-3"><StatusBadge status={w.status} /></td>
+                  <td className="px-4 py-3"><StatusBadge status={w.status === 'locked' ? 'pending' : w.status} /></td>
+                  <td className="px-4 py-3">
+                    {w.status === 'locked' && (
+                      <ActionButton url={`/api/admin/internships/${internship.id}`}
+                                    body={{ action: 'unlock_week', week_number: w.week_number }}
+                                    label={`Allow ${w.is_final ? 'final project' : `Week ${w.week_number}`}`}
+                                    variant="primary"
+                                    confirm="Open this week's tasks for the student?" />
+                    )}
+                  </td>
                 </tr>
               ))}
             </Table>
@@ -148,7 +155,20 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
           </Card>
         </>
       ) : (
-        <Card className="p-5 text-[14px] text-slate-light">This student has no internship yet.</Card>
+        <Card className="p-5">
+          <h2 className="font-display text-[15px] font-bold text-ink">Offer letter &amp; internship</h2>
+          <p className="mt-1.5 text-[13.5px] text-slate-light">
+            One click creates the offer letter from this student&rsquo;s name and chosen field, starts the 4-week internship
+            from today, and prepares Week 1 as <strong>pending</strong>. You then press &ldquo;Allow Week 1&rdquo; to open the tasks for the student.
+            The payment must be verified first.
+          </p>
+          <div className="mt-4">
+            <ActionButton url={`/api/admin/students/${student.id}/start`} body={{}} variant="primary" size="md"
+                          label="Generate offer letter & start internship"
+                          busyLabel="Generating…"
+                          confirm="Generate the offer letter and start this student's 4-week internship from today?" />
+          </div>
+        </Card>
       )}
 
       <Card className="overflow-hidden">

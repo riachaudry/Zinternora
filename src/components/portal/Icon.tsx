@@ -47,5 +47,5 @@ export const NAV_ICON: Record<string, string> = {
   'Students': 'users', 'Applications': 'file', 'Payments': 'card', 'Invitations': 'mail',
   'Internships': 'briefcase', 'Fields': 'layers', 'Batches': 'users', 'Weekly Roadmaps': 'map',
   'Evaluations': 'chart', 'Offer Letters': 'file', 'Certificates': 'award', 'Sample Documents': 'folder',
-  'Emails': 'mail', 'Admin Profile': 'user',
+  'Emails': 'mail', 'Contact HR': 'chat', 'Contact HR Ria': 'chat', 'Admin Profile': 'user',
 };

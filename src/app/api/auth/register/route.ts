@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = registerSchema.safeParse(await req.json());
     if (!parsed.success) return zodFail(parsed.error.issues);
-    const { password, invite_token, ...profile } = parsed.data;
+    const { password, invite_token, field_slug: _fieldSlug, ...profile } = parsed.data;
 
     const db = createAdminClient();
 
@@ -35,13 +35,18 @@ export async function POST(req: NextRequest) {
 
     // The auth trigger created the profile row; fill in the rest.
     const { error: profileError } = await db.from('profiles').update({
-      phone: profile.phone, whatsapp: profile.whatsapp,
-      date_of_birth: profile.date_of_birth || null, gender: profile.gender || null,
-      city: profile.city, country: profile.country,
-      education_level: profile.education_level, university: profile.university,
-      field_of_study: profile.field_of_study, bio: profile.bio || null,
+      phone: profile.phone, whatsapp: profile.whatsapp || profile.phone,
+      ...(profile.date_of_birth ? { date_of_birth: profile.date_of_birth } : {}),
+      ...(profile.gender ? { gender: profile.gender } : {}),
+      ...(profile.city ? { city: profile.city } : {}),
+      ...(profile.country ? { country: profile.country } : {}),
+      ...(profile.education_level ? { education_level: profile.education_level } : {}),
+      ...(profile.university ? { university: profile.university } : {}),
+      ...(profile.field_of_study ? { field_of_study: profile.field_of_study } : {}),
+      ...(profile.bio ? { bio: profile.bio } : {}),
       skills: profile.skills ?? [],
-      linkedin_url: profile.linkedin_url || null, portfolio_url: profile.portfolio_url || null,
+      ...(profile.linkedin_url ? { linkedin_url: profile.linkedin_url } : {}),
+      ...(profile.portfolio_url ? { portfolio_url: profile.portfolio_url } : {}),
     }).eq('id', created.user.id);
     if (profileError) console.error('[register] profile update failed', profileError);
 

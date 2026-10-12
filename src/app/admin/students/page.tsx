@@ -64,8 +64,8 @@ export default async function AdminStudentsPage(props: { searchParams: Promise<{
                 </td>
                 <td className="px-4 py-3 text-slate">{shortDate(s.created_at)}</td>
                 <td className="px-4 py-3 text-right">
-                  {s.username && (
-                    <Link href={`/profile/${s.username}`} target="_blank"
+                  {(
+                    <Link href={`/admin/students/${s.id}`}
                           className="text-[13px] font-semibold text-signal">Profile</Link>
                   )}
                 </td>

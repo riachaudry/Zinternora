@@ -7,7 +7,8 @@ import { ApplyForm } from './ApplyForm';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ApplyPage() {
+export default async function ApplyPage(props: { searchParams: Promise<{ field?: string }> }) {
+  const sp = await props.searchParams;
   const profile = await requireStudent();
   const state = await loadStudentState(profile.id);
   const stage = stageOf(state);
@@ -37,7 +38,7 @@ export default async function ApplyPage() {
         title="Apply for an internship"
         body="Pick one internship field for the 1-month program. Attach your payment screenshot as proof while applying (or on the next page); once payment is verified, your offer letter and Week 1 appear automatically."
       />
-      <ApplyForm fields={fields ?? []} userId={profile.id}
+      <ApplyForm fields={fields ?? []} preselect={sp.field} userId={profile.id}
                  brand={{ accountName: brand.accountName, bankName: brand.bankName, iban: brand.iban }} />
     </div>
   );

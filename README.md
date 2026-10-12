@@ -1,4 +1,4 @@
-# Zinternora
+# The Internora
 
 **Virtual Internships. Real Experience.**
 Project-Based Virtual Internships & Career Experience
@@ -50,9 +50,9 @@ announcements, and read an immutable audit log of every administrative action.
 - This is a project-based virtual internship program.
 - Certificates are issued after meeting the published completion criteria.
 - LORs are issued after successful completion and admin review.
-- Zinternora does not pay a stipend or salary and does not guarantee employment.
+- The Internora does not pay a stipend or salary and does not guarantee employment.
 
-Zinternora is an independent private program. It is not affiliated with any
+The Internora is an independent private program. It is not affiliated with any
 government body or university and is not an accredited institution.
 
 ---
@@ -109,9 +109,9 @@ students on `/dashboard`.
 Open the **live https website** (not a local test address), then:
 - **Android (Chrome):** menu ⋮ → *Install app* / *Add to Home screen*.
 - **iPhone (Safari only):** Share → *Add to Home Screen*.
-- **Laptop (Chrome/Edge):** click the install icon in the address bar, or menu → *Install Zinternora*.
+- **Laptop (Chrome/Edge):** click the install icon in the address bar, or menu → *Install The Internora*.
 
-The same steps are shown inside the app under **Settings → Install the Zinternora app**.
+The same steps are shown inside the app under **Settings → Install the The Internora app**.
 The app needs an internet connection; offline it shows a friendly "You are offline" page and stores no private data.
 
 ---

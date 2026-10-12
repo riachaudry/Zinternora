@@ -196,10 +196,10 @@ export function MiniCalendar({ marked, href, offset = 0, basePath }: { marked: s
 const QA = { blue: ['#E3ECFD', '#1D4ED8'], cyan: ['#DDF3FB', '#0E7490'], purple: ['#EBDDFB', '#6D28D9'], peach: ['#FDE3D3', '#C2410C'] } as const;
 
 /** Quick action tile with its own pastel colour. */
-export function QuickAction({ href, icon, label, color = 'blue' }: { href: string; icon: string; label: string; color?: keyof typeof QA }) {
+export function QuickAction({ href, icon, label, color = 'blue', external = false }: { href: string; icon: string; label: string; color?: keyof typeof QA; external?: boolean }) {
   const [bg, fg] = QA[color];
   return (
-    <Link href={href}
+    <Link href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           className="flex flex-col items-center gap-2 rounded-2xl p-4 text-center text-[13px] font-bold shadow-card transition hover:-translate-y-0.5"
           style={{ background: bg, color: '#0F1B33' }}>
       <span className="grid h-10 w-10 place-items-center rounded-full bg-white/80" style={{ color: fg }}><Icon name={icon} size={20} /></span>

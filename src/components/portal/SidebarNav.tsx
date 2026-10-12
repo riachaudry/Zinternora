@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon, NAV_ICON } from './Icon';
 
-export type NavItem = { href: string; label: string; badge?: number };
+export type NavItem = { href: string; label: string; badge?: number; external?: boolean };
 
 /** Navy sidebar navigation: icon + label, gold highlight on the active page. */
 export function SidebarNav({ nav, onNavigate }: {
@@ -25,6 +25,7 @@ export function SidebarNav({ nav, onNavigate }: {
               return (
                 <li key={item.href}>
                   <Link
+                    {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     style={active ? { background: 'linear-gradient(90deg,#E6C75A,#C9A13B)' } : undefined}
                     href={item.href}
                     onClick={onNavigate}
@@ -35,7 +36,7 @@ export function SidebarNav({ nav, onNavigate }: {
                         : 'text-white/75 hover:bg-white/5 hover:text-white'
                     }`}
                   >
-                    <Icon name={NAV_ICON[item.label] ?? 'layers'} size={18} />
+                    <Icon name={item.label.startsWith('Contact HR') ? 'chat' : (NAV_ICON[item.label] ?? 'layers')} size={18} />
                     <span className="flex-1">{item.label}</span>
                     {!!item.badge && (
                       <span className="rounded-full bg-[rgb(var(--accent-gold))] px-1.5 py-0.5 text-[11px] font-bold text-[#101C33]">

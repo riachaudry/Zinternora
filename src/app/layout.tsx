@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
     title: { default: `${brand.legalName} — ${brand.tagline}`, template: `%s · ${brand.legalName}` },
     description: brand.description,
-    icons: { icon: [{ url: '/favicon.png', sizes: '64x64', type: 'image/png' }, { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }], apple: '/apple-touch-icon.png' },
+    icons: { icon: [{ url: '/favicon.png?v=2', sizes: '64x64', type: 'image/png' }, { url: '/icons/icon-192.png?v=2', sizes: '192x192', type: 'image/png' }], apple: '/apple-touch-icon.png?v=2' },
     applicationName: brand.name,
     appleWebApp: { capable: true, title: brand.name, statusBarStyle: 'black-translucent' },
     formatDetection: { telephone: false },

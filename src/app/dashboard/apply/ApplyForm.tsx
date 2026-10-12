@@ -12,12 +12,12 @@ type Field = {
   evaluation_criteria: string; certificate_criteria: string;
 };
 
-export function ApplyForm({ fields, userId, brand }: { fields: Field[]; userId: string; brand: { accountName: string; bankName: string; iban: string } }) {
+export function ApplyForm({ fields, userId, brand, preselect }: { fields: Field[]; userId: string; preselect?: string; brand: { accountName: string; bankName: string; iban: string } }) {
   const [txn, setTxn] = React.useState('');
   const [payDate, setPayDate] = React.useState(isoDate(new Date()));
   const [screenshot, setScreenshot] = React.useState<string | null>(null);
   const router = useRouter();
-  const [slug, setSlug] = React.useState('');
+  const [slug, setSlug] = React.useState(preselect && fields.some((f) => f.slug === preselect) ? preselect : '');
   const duration = 4 as const;
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);

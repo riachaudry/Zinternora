@@ -22,9 +22,12 @@ export async function activateInternship(opts: {
   applicationId: string;
   startDate: Date | string;   // admin picks "today" or a scheduled date
   adminId: string;
+  /** One-click mode: any weekday is fine and Week 1 stays pending until an admin allows it. */
+  anyDay?: boolean;
+  holdWeekOne?: boolean;
 }) {
   const db = createAdminClient();
-  const { applicationId, startDate, adminId } = opts;
+  const { applicationId, startDate, adminId, anyDay = false, holdWeekOne = false } = opts;
 
   const { data: app, error: appErr } = await db
     .from('applications')
@@ -45,7 +48,7 @@ export async function activateInternship(opts: {
   const start = parseDate(startDate);
   if (Number.isNaN(start.getTime())) throw new Error('Choose a valid start date.');
   // Weeks run Monday to Sunday so every weekly deadline is a full Sunday 11:59 PM cutoff.
-  if (!isMonday(start)) throw new Error('The internship start date must be a Monday, so each week ends on Sunday.');
+  if (!anyDay && !isMonday(start)) throw new Error('The internship start date must be a Monday, so each week ends on Sunday.');
   const end = internshipEndDate(start, duration);
 
   const { data: internship, error: intErr } = await db.from('internships').insert({
@@ -60,7 +63,7 @@ export async function activateInternship(opts: {
   }).select('id').single();
   if (intErr || !internship) throw new Error(intErr?.message ?? 'Could not create the internship.');
 
-  await buildWeeksAndTasks(internship.id, app.field_id, duration, start);
+  await buildWeeksAndTasks(internship.id, app.field_id, duration, start, holdWeekOne);
 
   await db.from('applications').update({
     status: 'approved', reviewed_at: new Date().toISOString(), reviewed_by: adminId,
@@ -72,7 +75,9 @@ export async function activateInternship(opts: {
   const student = (app as any).profiles;
 
   await notify(app.student_id, 'internship_activated',
-    `Your ${duration}-week ${field} internship runs from ${shortDate(start)} to ${shortDate(end)}. Week 1 is open.`,
+    holdWeekOne
+      ? `Your ${duration}-week ${field} internship runs from ${shortDate(start)} to ${shortDate(end)}. HR will open your Week 1 tasks shortly.`
+      : `Your ${duration}-week ${field} internship runs from ${shortDate(start)} to ${shortDate(end)}. Week 1 is open.`,
     '/dashboard/roadmap');
   await notify(app.student_id, 'offer_letter_issued',
     `Offer letter ${offer.publicId} has been issued.`, '/dashboard/offer-letter');
@@ -91,7 +96,7 @@ export async function activateInternship(opts: {
 }
 
 /** Copies roadmap templates into per-student week and task rows with real dates. */
-async function buildWeeksAndTasks(internshipId: string, fieldId: string, duration: Duration, start: Date) {
+async function buildWeeksAndTasks(internshipId: string, fieldId: string, duration: Duration, start: Date, holdFirst = false) {
   const db = createAdminClient();
 
   const { data: templateWeeks, error } = await db
@@ -105,7 +110,7 @@ async function buildWeeksAndTasks(internshipId: string, fieldId: string, duratio
 
   for (const tw of templateWeeks as any[]) {
     const win = windows[tw.week_number - 1];
-    const isFirst = tw.week_number === 1;
+    const isFirst = tw.week_number === 1 && !holdFirst;
 
     const { data: week } = await db.from('internship_weeks').insert({
       internship_id: internshipId,
@@ -140,7 +145,7 @@ async function buildWeeksAndTasks(internshipId: string, fieldId: string, duratio
       submission_type: rt.submission_type,
       allowed_file_types: rt.allowed_file_types,
       unlock_date: isoDate(win.startDate),
-      deadline: isoDate(sundayDeadline(win.startDate)),
+      deadline: isoDate(win.endDate),
       status: isFirst && tasks.length ? 'available' : 'locked',
     })));
   }
@@ -386,7 +391,7 @@ export async function rescheduleInternship(internshipId: string, startDate: Date
       start_date: isoDate(win.startDate), end_date: isoDate(win.endDate),
     }).eq('id', w.id);
     await db.from('internship_tasks').update({
-      unlock_date: isoDate(win.startDate), deadline: isoDate(sundayDeadline(win.startDate)),
+      unlock_date: isoDate(win.startDate), deadline: isoDate(win.endDate),
     }).eq('week_id', w.id);
   }
   await audit(adminId, 'internship.reschedule', 'internship', internshipId, { start: isoDate(start) });
