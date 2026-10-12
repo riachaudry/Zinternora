@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SocialButtons } from '../SocialButtons';
 import { RegisterForm } from './RegisterForm';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { hashToken } from '@/lib/ids';
@@ -27,6 +28,7 @@ export default async function RegisterPage(
       <p className="mt-2 text-[15px] text-slate">
         Already registered? <Link href="/login" className="font-semibold text-signal hover:underline">Sign in</Link>
       </p>
+      {!invited && <SocialButtons />}
       <RegisterForm
         invited={invited}
         inviteToken={invited ? searchParams.token : undefined}

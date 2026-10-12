@@ -2,6 +2,7 @@ import { requireStudent } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { loadStudentState, stageOf } from '@/lib/services/student';
 import { SectionHead, Alert, Button } from '@/components/ui';
+import { getBrand } from '@/lib/settings';
 import { ApplyForm } from './ApplyForm';
 
 export const dynamic = 'force-dynamic';
@@ -10,6 +11,7 @@ export default async function ApplyPage() {
   const profile = await requireStudent();
   const state = await loadStudentState(profile.id);
   const stage = stageOf(state);
+  const brand = await getBrand();
 
   const { data: fields } = await createClient()
     .from('internship_fields')
@@ -33,9 +35,10 @@ export default async function ApplyPage() {
       <SectionHead
         eyebrow="Step 1 of 2"
         title="Apply for an internship"
-        body="Pick one internship field for the 1-month program. After you apply, submit the fee and receipt; once payment is verified, your offer letter and Week 1 appear automatically."
+        body="Pick one internship field for the 1-month program. Attach your payment screenshot as proof while applying (or on the next page); once payment is verified, your offer letter and Week 1 appear automatically."
       />
-      <ApplyForm fields={fields ?? []} />
+      <ApplyForm fields={fields ?? []} userId={profile.id}
+                 brand={{ accountName: brand.accountName, bankName: brand.bankName, iban: brand.iban }} />
     </div>
   );
 }

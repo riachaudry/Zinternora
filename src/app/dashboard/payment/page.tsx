@@ -111,7 +111,7 @@ export default async function PaymentPage() {
               <p className="text-slate">{brand.hrName}</p>
               <p className="mt-2 font-semibold text-ink">WhatsApp</p>
               <a href={brand.hrWhatsappLink} target="_blank" rel="noopener noreferrer"
-                 className="text-signal underline">{brand.hrWhatsapp}</a>
+                 className="text-signal underline">Chat with HR on WhatsApp</a>
             </div>
           </Card>
         </div>

@@ -37,8 +37,8 @@ export function DocumentSheet({
           <div className="text-[13px] leading-relaxed">
             <p className="font-semibold text-ink">HR contact</p>
             <p className="text-slate">{BRAND.hr.name}</p>
-            <p className="mt-2 font-semibold text-ink">WhatsApp</p>
-            <p className="text-slate">{BRAND.hr.whatsapp}</p>
+            <p className="mt-2 font-semibold text-ink">Website</p>
+            <p className="text-slate">{BRAND.website}</p>
           </div>
           <div className="flex flex-wrap items-end justify-end gap-8">
             <Signatory person={BRAND.founder} />

@@ -28,9 +28,9 @@ export default async function SupportPage() {
 
       <Alert tone="info" title="Urgent payment or verification question?">
         <p className="mt-1">
-          Message {brand.hrName} on WhatsApp at{' '}
+          Message {brand.hrName} on WhatsApp:{' '}
           <a className="font-semibold underline underline-offset-2" href={brand.hrWhatsappLink}
-             target="_blank" rel="noreferrer noopener">{brand.hrWhatsapp}</a>{' '}
+             target="_blank" rel="noreferrer noopener">open chat</a>{' '}
           and include your student ID. Never send payments to any number other than the one shown on your payment page.
         </p>
       </Alert>

@@ -18,7 +18,7 @@ export default async function ContactPage() {
           <h2 className="font-display text-lg font-bold">HR</h2>
           <p className="mt-3 text-[17px] font-semibold text-ink">{brand.hrName}</p>
           <p className="mt-4 text-[13px] font-semibold text-slate-light">WhatsApp</p>
-          <p className="text-[17px] font-semibold text-ink">{brand.hrWhatsapp}</p>
+          <p className="text-[15px] text-slate">Use the button below to chat with HR directly.</p>
           <p className="mt-4 text-[13px] font-semibold text-slate-light">Support email</p>
           <p className="text-[17px] font-semibold text-ink">
             <a href={`mailto:${brand.supportEmail}`} className="underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>

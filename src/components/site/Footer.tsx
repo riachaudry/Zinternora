@@ -20,7 +20,7 @@ export async function Footer() {
           <div className="mt-5 text-[14px]">
             <p className="font-semibold text-white">HR: {brand.hrName}</p>
             <a href={brand.hrWhatsappLink} className="mt-1 inline-block hover:text-white">
-              WhatsApp: {brand.hrWhatsapp}
+              Chat with HR on WhatsApp
             </a>
           </div>
         </div>

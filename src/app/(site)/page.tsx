@@ -129,7 +129,7 @@ export default async function HomePage() {
             <p className="font-semibold text-ink">HR</p>
             <p className="text-slate">{brand.hrName}</p>
             <p className="mt-3 font-semibold text-ink">WhatsApp</p>
-            <p className="text-slate">{brand.hrWhatsapp}</p>
+            <p className="text-slate">Tap &ldquo;Message {brand.hrName}&rdquo; to chat</p>
           </div>
         </Card>
       </section>

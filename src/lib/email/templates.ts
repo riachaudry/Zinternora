@@ -25,7 +25,7 @@ const shell = (title: string, body: string, cta?: { label: string; href: string 
       ${cta ? `<p style="margin:26px 0 0"><a href="${cta.href}" style="background:#1F6F5C;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:600;display:inline-block">${cta.label}</a></p>` : ''}
     </div>
     <div style="padding:18px 28px;background:#F7F9FC;border-top:1px solid #DDE5EF;color:#6B7C96;font-size:12px;line-height:1.6">
-      HR: ${B.hrName} &nbsp;·&nbsp; WhatsApp: ${B.hrWhatsapp}<br/>
+      HR: ${B.hrName} &nbsp;·&nbsp; Contact HR via www.theinternora.com/contact<br/>
       This is a project-based virtual internship program.
     </div>
   </div>

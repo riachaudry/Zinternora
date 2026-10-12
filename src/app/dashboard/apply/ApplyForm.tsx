@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { PLANS, formatPKR } from '@/lib/brand';
 import { Card, Button, Alert } from '@/components/ui';
+import { Uploader } from '@/components/portal/Uploader';
+import { isoDate } from '@/lib/dates';
 import { postJson } from '@/components/portal/form';
 
 type Field = {
@@ -10,7 +12,10 @@ type Field = {
   evaluation_criteria: string; certificate_criteria: string;
 };
 
-export function ApplyForm({ fields }: { fields: Field[] }) {
+export function ApplyForm({ fields, userId, brand }: { fields: Field[]; userId: string; brand: { accountName: string; bankName: string; iban: string } }) {
+  const [txn, setTxn] = React.useState('');
+  const [payDate, setPayDate] = React.useState(isoDate(new Date()));
+  const [screenshot, setScreenshot] = React.useState<string | null>(null);
   const router = useRouter();
   const [slug, setSlug] = React.useState('');
   const duration = 4 as const;
@@ -23,7 +28,18 @@ export function ApplyForm({ fields }: { fields: Field[] }) {
   async function submit() {
     setError(null); setBusy(true);
     try {
-      await postJson('/api/applications', { field_slug: slug, duration });
+      if ((txn.trim() && !screenshot) || (!txn.trim() && screenshot)) {
+        throw new Error('To send your payment proof now, enter the transaction ID and upload the screenshot — or leave both empty and do it on the next page.');
+      }
+      const res = await postJson('/api/applications', { field_slug: slug, duration });
+      if (txn.trim() && screenshot) {
+        try {
+          await postJson('/api/payments', {
+            application_id: res.applicationId, method: 'bank_transfer', transaction_id: txn.trim(),
+            payment_date: payDate, amount_pkr: PLANS[duration].fee, screenshot_url: screenshot,
+          });
+        } catch { /* the application is saved; the student can finish on the payment page */ }
+      }
       router.push('/dashboard/payment');
       router.refresh();
     } catch (e) {
@@ -68,6 +84,31 @@ export function ApplyForm({ fields }: { fields: Field[] }) {
           </div>
         </Card>
 
+        <Card className="p-5">
+          <h2 className="font-display text-lg font-bold">Payment proof</h2>
+          <p className="mt-1 text-[14px] text-slate">
+            Send exactly <strong>{formatPKR(PLANS[4].fee)}</strong> by bank transfer to the account below, then attach your
+            payment screenshot as proof. You can also do this on the next page.
+          </p>
+          <dl className="mt-4 grid gap-3 rounded-xl bg-mist/60 p-4 text-[14px] sm:grid-cols-3">
+            <div><dt className="text-[12px] font-semibold text-slate-light">Account name</dt><dd className="font-semibold text-ink">{brand.accountName}</dd></div>
+            <div><dt className="text-[12px] font-semibold text-slate-light">Bank</dt><dd className="font-semibold text-ink">{brand.bankName}</dd></div>
+            <div><dt className="text-[12px] font-semibold text-slate-light">IBAN</dt><dd className="break-all font-mono text-[13px] font-bold text-ink">{brand.iban}</dd></div>
+          </dl>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="form-row"><span>Transaction ID</span>
+              <input value={txn} onChange={(e) => setTxn(e.target.value)} placeholder="From your transfer receipt" /></label>
+            <label className="form-row"><span>Payment date</span>
+              <input type="date" value={payDate} max={isoDate(new Date())} onChange={(e) => setPayDate(e.target.value)} /></label>
+          </div>
+          <div className="mt-4">
+            <p className="mb-1.5 text-[13px] font-semibold text-ink">Payment screenshot (proof)</p>
+            <Uploader bucket="payment-proofs" userId={userId} allowed={['jpg', 'jpeg', 'png', 'pdf']}
+                      maxBytes={5 * 1024 * 1024} accept="image/png,image/jpeg,application/pdf"
+                      onDone={(f) => setScreenshot(f?.url ?? null)} label="Upload screenshot" />
+          </div>
+        </Card>
+
         {selected && (
           <Card className="p-5">
             <h2 className="font-display text-lg font-bold">What you&rsquo;ll be assessed on</h2>
@@ -102,7 +143,7 @@ export function ApplyForm({ fields }: { fields: Field[] }) {
           <Button onClick={submit} disabled={!slug || busy} className="mt-5 w-full">
             {busy ? 'Submitting…' : 'Submit application'}
           </Button>
-          <p className="mt-2 text-center text-[12px] text-slate-light">Next: pay the fee and upload your receipt.</p>
+          <p className="mt-2 text-center text-[12px] text-slate-light">Attach your payment proof above, or add it on the next page.</p>
         </Card>
       </div>
     </div>

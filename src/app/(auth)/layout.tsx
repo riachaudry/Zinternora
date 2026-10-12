@@ -26,7 +26,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <Link href="/" className="mb-8 inline-block lg:hidden"><Logo size={30} /></Link>
           {children}
           <p className="mt-10 text-[12px] leading-relaxed text-slate-light">
-            Need help? HR {BRAND.hr.name} · WhatsApp {BRAND.hr.whatsapp}
+            Need help? Contact HR {BRAND.hr.name} on WhatsApp via the Contact page.
           </p>
         </div>
       </main>
