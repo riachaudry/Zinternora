@@ -22,7 +22,7 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/internships" size="lg">Explore internships</Button>
               <Button href="/register" size="lg" variant="secondary"
-                      className="border-white/20 bg-white/10 text-white hover:border-white/40">
+                      className="!border-white/40 !bg-white/10 !text-white hover:!bg-white/20">
                 Apply now
               </Button>
             </div>
