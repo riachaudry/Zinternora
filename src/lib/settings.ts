@@ -46,6 +46,9 @@ export function brandDefaults(): BrandSettings {
 }
 
 const str = (v: unknown, fallback: string) => (typeof v === 'string' && v.trim() ? v.trim() : fallback);
+/** Signature images: an empty stored value falls back to the built-in signature instead of leaving a blank line. */
+const sig = (o: StoredBrand, k: keyof StoredBrand, fallback: string | null) =>
+  typeof o[k] === 'string' && (o[k] as string).trim() ? (o[k] as string).trim() : fallback;
 const img = (o: StoredBrand, k: keyof StoredBrand, fallback: string | null) =>
   k in o ? (typeof o[k] === 'string' && (o[k] as string).trim() ? (o[k] as string).trim() : null) : fallback;
 
@@ -62,8 +65,8 @@ export function mergeBrand(o: StoredBrand | null): BrandSettings {
     logoUrl: img(o, 'logoUrl', d.logoUrl),
     hrName: str(o.hrName, d.hrName), hrWhatsapp, hrWhatsappLink: whatsappLink(hrWhatsapp),
     accountName: str(o.accountName, d.accountName), bankName: str(o.bankName, d.bankName), iban: str(o.iban, d.iban),
-    founder: { name: str(o.founderName, d.founder.name), title: str(o.founderTitle, d.founder.title), signatureImage: img(o, 'founderSignature', d.founder.signatureImage) },
-    hrManager: { name: str(o.hrManagerName, d.hrManager.name), title: str(o.hrManagerTitle, d.hrManager.title), signatureImage: img(o, 'hrManagerSignature', d.hrManager.signatureImage) },
+    founder: { name: str(o.founderName, d.founder.name), title: str(o.founderTitle, d.founder.title), signatureImage: sig(o, 'founderSignature', d.founder.signatureImage) },
+    hrManager: { name: str(o.hrManagerName, d.hrManager.name), title: str(o.hrManagerTitle, d.hrManager.title), signatureImage: sig(o, 'hrManagerSignature', d.hrManager.signatureImage) },
     autoCertificate: typeof o.autoCertificate === 'boolean' ? o.autoCertificate : d.autoCertificate,
     autoLor: typeof o.autoLor === 'boolean' ? o.autoLor : d.autoLor,
   };

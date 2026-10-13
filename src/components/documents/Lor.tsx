@@ -23,7 +23,7 @@ export async function Lor({ data, sample = false }: { data: LorData; sample?: bo
     <DocFrame>
       <article className="od-page" data-theme="classic">
         <PageArt />
-        {sample && <SampleMark />}
+        <SampleMark text={brand.name.toUpperCase()} />
         <div className="od-logo-pos"><DocLogo name={brand.name} logoUrl={brand.logoUrl === DEFAULT_MARK ? null : brand.logoUrl} /></div>
         <div className="od-idqr-pos">
           <IdQr label="LOR ID:" id={data.publicId} url={`${siteBase(brand.website)}/verify`} website={brand.website} />

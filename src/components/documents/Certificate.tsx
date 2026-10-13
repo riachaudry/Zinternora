@@ -28,7 +28,7 @@ export async function Certificate({ data, sample = false }: { data: CertificateD
     <DocFrame>
       <article className="od-page" data-theme="classic">
         <PageArt symmetric />
-        {sample && <SampleMark />}
+        <SampleMark text={brand.name.toUpperCase()} />
         <div className="od-cert-logo"><DocLogo name={brand.name} logoUrl={brand.logoUrl === DEFAULT_MARK ? null : brand.logoUrl} /></div>
         <div className="od-idqr-pos" style={{ top: 92 }}>
           <IdQr label="Certificate ID:" id={data.publicId} url={sample ? `${siteBase(brand.website)}/verify` : `${siteBase(brand.website)}/verify/certificate/${data.publicId}`} website={brand.website} />

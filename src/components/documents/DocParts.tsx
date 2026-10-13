@@ -194,8 +194,8 @@ export function PageFooter({ website, email }: { website: string; email: string 
   );
 }
 
-export function SampleMark() {
-  return <div className="od-sample" aria-hidden="true">SAMPLE</div>;
+export function SampleMark({ text = 'THE INTERNORA' }: { text?: string }) {
+  return <div className="od-sample" aria-hidden="true">{text}</div>;
 }
 
 /* ---------------- small line icons ---------------- */

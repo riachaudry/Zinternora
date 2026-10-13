@@ -22,9 +22,9 @@ export default async function SampleDocumentsPage() {
         <SectionHead title="Sample documents"
                      body="This is how the Offer Letter, Certificate and Letter of Recommendation look. Real documents are created automatically for each student with their own name, domain, dates and document ID." />
         <Alert tone="warn" title="Sample only">
-          These pages use the sample student “Ria Chaudhry”, example dates and sample IDs, and carry a SAMPLE mark.
-          They are not saved anywhere and are not valid documents. Signature lines stay blank until you add signature
-          images (see DOCUMENT_SIGNATORY.md).
+          These pages use the sample student “Ria Chaudhry”, example dates and sample IDs. They are not saved anywhere and carry The Internora watermark.
+          They are not valid documents. Signatures come from Admin → Settings, or the built-in ones
+          if none are set.
         </Alert>
         <PrintButton label="Print / Save sample as PDF" />
       </div>

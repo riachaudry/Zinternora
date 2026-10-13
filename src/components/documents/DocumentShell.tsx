@@ -61,10 +61,10 @@ export function DocumentSheet({
 function Signatory({ person }: { person: { name: string; title: string; signatureImage: string | null } }) {
   return (
     <div className="w-52 text-right">
-      <div className="mb-1.5 flex h-16 items-end justify-center border-b border-ink">
+      <div className="mb-1.5 flex h-20 items-end justify-center border-b border-ink">
         {person.signatureImage && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={person.signatureImage} alt={`Signature of ${person.name}`} className="max-h-14 w-auto bg-transparent object-contain mix-blend-multiply" />
+          <img src={person.signatureImage} alt={`Signature of ${person.name}`} className="max-h-[76px] w-auto bg-transparent object-contain mix-blend-multiply" />
         )}
       </div>
       <p className="text-[11px] text-slate-light">{person.title}</p>
