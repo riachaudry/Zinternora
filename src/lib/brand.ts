@@ -50,3 +50,6 @@ export const SCORE_WEIGHTS = { weekly: 0.7, finalProject: 0.3 } as const;
 export const WEEK_COMPLETION_THRESHOLD = 0.7;
 
 
+
+/** The Internora company page. Every student must follow it and tag it in their task post. */
+export const LINKEDIN_URL = 'https://www.linkedin.com/company/the-internora/';
