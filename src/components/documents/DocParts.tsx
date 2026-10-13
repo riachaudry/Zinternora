@@ -69,7 +69,8 @@ export function DocLogo({ name, logoUrl }: { name: string; logoUrl?: string | nu
         // eslint-disable-next-line @next/next/no-img-element
         <img src={logoUrl} alt="" width={76} height={76} style={{ width: 76, height: 76, objectFit: 'contain' }} />
       ) : (
-        <Cap size={64} />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/brand/zinternora-mark.png" alt="" width={76} height={76} style={{ width: 76, height: 76, objectFit: 'contain' }} />
       )}
       <div>
         <p className="od-logo-name">{name.toUpperCase()}</p>

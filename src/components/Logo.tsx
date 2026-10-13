@@ -3,20 +3,10 @@ import * as React from 'react';
 import { useBrand } from '@/components/brand/BrandProvider';
 
 /** Premium The Internora mark: graduation cap + open book/leaf, representing learning, building and growth. */
-export function LogoMark({ size = 36, variant = 'color' }: { size?: number; variant?: 'color' | 'light' | 'dark' }) {
-  const navy = variant === 'light' ? '#FFFFFF' : '#0B2D5B';
-  const gold = '#D4AF37';
-  const paper = variant === 'light' ? '#0B2D5B' : '#F8F5EF';
+export function LogoMark({ size = 36 }: { size?: number; variant?: 'color' | 'light' | 'dark' }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo">
-      <rect x="2" y="2" width="60" height="60" rx="16" fill={variant === 'light' ? '#FFFFFF' : navy}/>
-      <path d="M12 24L32 14L52 24L32 34L12 24Z" fill={gold}/>
-      <path d="M16 27V36L32 45L48 36V27L32 36L16 27Z" fill={paper}/>
-      <path d="M32 36L43 29.8V42.2L32 49L21 42.2V29.8L32 36Z" fill={gold} opacity=".95"/>
-      <path d="M32 36C35.5 32.5 40 29.8 45 28.5C43.8 35.2 39.7 41.4 32 45.5" stroke={variant === 'light' ? '#0B2D5B' : '#FFFFFF'} strokeWidth="2.4" strokeLinecap="round"/>
-      <path d="M49 20V28" stroke={gold} strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="49" cy="30.5" r="2" fill={gold}/>
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/brand/zinternora-mark.png" alt="The Internora" width={size} height={size} style={{ width: size, height: size }} className="rounded-lg object-contain" />
   );
 }
 

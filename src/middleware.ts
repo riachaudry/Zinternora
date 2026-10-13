@@ -20,6 +20,20 @@ export async function middleware(request: NextRequest) {
     );
   }
 
+  // Visitors without a Supabase session cookie need no network check: public pages load straight away,
+  // and portal pages go to the login page. This keeps the home page fast and light on the server.
+  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith('sb-'));
+  if (!hasSession) {
+    const { pathname: p } = request.nextUrl;
+    if (p.startsWith('/dashboard') || p.startsWith('/admin')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('next', p);
+      return NextResponse.redirect(url);
+    }
+    return response;
+  }
+
   const supabase = createServerClient(
     env.url,
     env.anonKey,
