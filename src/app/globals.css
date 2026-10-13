@@ -187,7 +187,7 @@
 .od-sign { width: 200px; }
 .od-sign-right { text-align: left; }
 .od-sign-img { height: 60px; border-bottom: 1px solid #0B2D5B; display: flex; align-items: flex-end; margin-bottom: 4px; }
-.od-sign-img img { max-height: 58px; max-width: 190px; width: auto; object-fit: contain; }
+.od-sign-img img { mix-blend-mode: multiply; background: transparent; max-height: 58px; max-width: 190px; width: auto; object-fit: contain; }
 .od-sign-name { font-weight: 700; font-size: 13.5px; color: #0B2D5B; }
 .od-sign-title { font-size: 12.2px; color: #1B2A45; line-height: 1.25; }
 

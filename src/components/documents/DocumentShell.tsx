@@ -64,7 +64,7 @@ function Signatory({ person }: { person: { name: string; title: string; signatur
       <div className="mb-1.5 flex h-16 items-end justify-center border-b border-ink">
         {person.signatureImage && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={person.signatureImage} alt={`Signature of ${person.name}`} className="max-h-14 w-auto object-contain" />
+          <img src={person.signatureImage} alt={`Signature of ${person.name}`} className="max-h-14 w-auto bg-transparent object-contain mix-blend-multiply" />
         )}
       </div>
       <p className="text-[11px] text-slate-light">{person.title}</p>
