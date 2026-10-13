@@ -92,7 +92,7 @@ export default async function DashboardHome({ searchParams }: { searchParams?: P
       )}
 
       {/* Pastel stat cards */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <PastelStat color="blue" icon="cap" href="/dashboard/internship" label="Internship Status"
                     value={internship ? internship.status.replace(/^\w/, (c: string) => c.toUpperCase()) : 'Not Started'}
                     hint={internship ? (field ?? undefined) : 'Apply to begin your journey'} />

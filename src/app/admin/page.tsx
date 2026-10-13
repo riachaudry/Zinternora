@@ -57,7 +57,7 @@ export default async function AdminDashboard() {
         </Alert>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <PastelStat color="blue" icon="users" href="/admin/students" label="Students" value={students.count ?? 0} />
         <PastelStat color="purple" icon="file" href="/admin/applications" label="Applications" value={applications.count ?? 0} />
         <PastelStat color="gold" icon="card" href="/admin/payments" label="Payments to verify" value={pendingPayments.count ?? 0} />

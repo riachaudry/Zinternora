@@ -18,14 +18,14 @@ export function PastelStat({ label, value, hint, icon, color = 'blue', href }: {
 }) {
   const c = PASTEL[color];
   const card = (
-    <div className={`rounded-2xl p-4 shadow-card ${href ? 'transition hover:-translate-y-0.5 hover:shadow-lg' : ''}`} style={{ background: c.bg }}>
+    <div className={`rounded-2xl p-3.5 shadow-card sm:p-4 ${href ? 'transition hover:-translate-y-0.5 hover:shadow-lg' : ''}`} style={{ background: c.bg }}>
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[12.5px] font-semibold" style={{ color: '#334155' }}>{label}</p>
+        <p className="text-[12px] font-semibold sm:text-[12.5px]" style={{ color: '#334155' }}>{label}</p>
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/80" style={{ color: c.fg }}>
           <Icon name={icon} size={16} />
         </span>
       </div>
-      <p className="mt-2 font-display text-[22px] font-extrabold leading-tight" style={{ color: '#0F1B33' }}>{value}</p>
+      <p className="mt-2 font-display text-[19px] font-extrabold leading-tight sm:text-[22px]" style={{ color: '#0F1B33' }}>{value}</p>
       {hint && <p className="mt-1 text-[12px]" style={{ color: '#475569' }}>{hint}</p>}
     </div>
   );
@@ -93,8 +93,7 @@ export function Hero({ title, body, action, extra }: {
   title: string; body: string; action?: { href: string; label: string }; extra?: React.ReactNode;
 }) {
   return (
-    <section className="relative min-h-[190px] overflow-hidden rounded-3xl p-6 text-white shadow-card sm:p-8"
-             style={{ background: 'linear-gradient(100deg,#0B2D5B 0%,#14407A 45%,#3A5F95 62%,#E9B96F 100%)' }}>
+    <section className="relative min-h-[190px] overflow-hidden rounded-3xl bg-[#0B2D5B] p-6 text-white shadow-card sm:bg-[linear-gradient(100deg,#0B2D5B_0%,#14407A_45%,#3A5F95_62%,#E9B96F_100%)] sm:p-8">
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] items-end sm:flex">
         <DeskScene />
       </div>
