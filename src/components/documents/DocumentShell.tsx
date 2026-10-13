@@ -67,7 +67,6 @@ function Signatory({ person }: { person: { name: string; title: string; signatur
           <img src={person.signatureImage} alt={`Signature of ${person.name}`} className="max-h-14 w-auto object-contain" />
         )}
       </div>
-      <p className="text-[12px] font-semibold text-ink">{person.name}</p>
       <p className="text-[11px] text-slate-light">{person.title}</p>
       <p className="text-[11px] text-slate-light">The Internora</p>
     </div>

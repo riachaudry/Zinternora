@@ -13,12 +13,12 @@ const PASTEL = {
 export type Pastel = keyof typeof PASTEL;
 
 /** Soft pastel stat tile with an icon chip (fixed colours, readable in every theme). */
-export function PastelStat({ label, value, hint, icon, color = 'blue' }: {
-  label: string; value: React.ReactNode; hint?: string; icon: string; color?: Pastel;
+export function PastelStat({ label, value, hint, icon, color = 'blue', href }: {
+  label: string; value: React.ReactNode; hint?: string; icon: string; color?: Pastel; href?: string;
 }) {
   const c = PASTEL[color];
-  return (
-    <div className="rounded-2xl p-4 shadow-card" style={{ background: c.bg }}>
+  const card = (
+    <div className={`rounded-2xl p-4 shadow-card ${href ? 'transition hover:-translate-y-0.5 hover:shadow-lg' : ''}`} style={{ background: c.bg }}>
       <div className="flex items-start justify-between gap-2">
         <p className="text-[12.5px] font-semibold" style={{ color: '#334155' }}>{label}</p>
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/80" style={{ color: c.fg }}>
@@ -29,6 +29,7 @@ export function PastelStat({ label, value, hint, icon, color = 'blue' }: {
       {hint && <p className="mt-1 text-[12px]" style={{ color: '#475569' }}>{hint}</p>}
     </div>
   );
+  return href ? <Link href={href} className="block">{card}</Link> : card;
 }
 
 /** Illustrated desk scene (laptop, plants, books, mug) drawn in SVG for the hero banner. */

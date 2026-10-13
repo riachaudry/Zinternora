@@ -58,14 +58,14 @@ export default async function AdminDashboard() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <PastelStat color="blue" icon="users" label="Students" value={students.count ?? 0} />
-        <PastelStat color="purple" icon="file" label="Applications" value={applications.count ?? 0} />
-        <PastelStat color="gold" icon="card" label="Payments to verify" value={pendingPayments.count ?? 0} />
-        <PastelStat color="green" icon="card" label="Verified payments" value={formatPKR(verifiedTotal)} hint="Total received" />
-        <PastelStat color="teal" icon="briefcase" label="Active internships" value={activeInternships.count ?? 0} />
-        <PastelStat color="green" icon="award" label="Completed" value={completedInternships.count ?? 0} />
-        <PastelStat color="pink" icon="upload" label="Submissions to review" value={pendingReviews.count ?? 0} />
-        <PastelStat color="blue" icon="help" label="Open tickets" value={openTickets.count ?? 0} />
+        <PastelStat color="blue" icon="users" href="/admin/students" label="Students" value={students.count ?? 0} />
+        <PastelStat color="purple" icon="file" href="/admin/applications" label="Applications" value={applications.count ?? 0} />
+        <PastelStat color="gold" icon="card" href="/admin/payments" label="Payments to verify" value={pendingPayments.count ?? 0} />
+        <PastelStat color="green" icon="card" href="/admin/payments" label="Verified payments" value={formatPKR(verifiedTotal)} hint="Total received" />
+        <PastelStat color="teal" icon="briefcase" href="/admin/internships" label="Active internships" value={activeInternships.count ?? 0} />
+        <PastelStat color="green" icon="award" href="/admin/internships" label="Completed" value={completedInternships.count ?? 0} />
+        <PastelStat color="pink" icon="upload" href="/admin/submissions" label="Submissions to review" value={pendingReviews.count ?? 0} />
+        <PastelStat color="blue" icon="help" href="/admin/support" label="Open tickets" value={openTickets.count ?? 0} />
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

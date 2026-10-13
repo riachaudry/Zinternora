@@ -93,16 +93,16 @@ export default async function DashboardHome({ searchParams }: { searchParams?: P
 
       {/* Pastel stat cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <PastelStat color="blue" icon="cap" label="Internship Status"
+        <PastelStat color="blue" icon="cap" href="/dashboard/internship" label="Internship Status"
                     value={internship ? internship.status.replace(/^\w/, (c: string) => c.toUpperCase()) : 'Not Started'}
                     hint={internship ? (field ?? undefined) : 'Apply to begin your journey'} />
-        <PastelStat color="pink" icon="check" label="Total Tasks"
+        <PastelStat color="pink" icon="check" href="/dashboard/tasks" label="Total Tasks"
                     value={`${progress.approved} / ${progress.total || 16}`}
                     hint={`Tasks across ${weeks.length || 4} weeks`} />
-        <PastelStat color="green" icon="clock" label="Days Remaining"
+        <PastelStat color="green" icon="clock" href="/dashboard/roadmap" label="Days Remaining"
                     value={clock ? `${clock.remaining} Days` : `${(application?.duration ?? 4) * 7} Days`}
                     hint="Until completion" />
-        <PastelStat color="purple" icon="chart" label="Progress"
+        <PastelStat color="purple" icon="chart" href="/dashboard/roadmap" label="Progress"
                     value={`${progress.percent}%`}
                     hint={progress.percent ? 'Keep going!' : 'Keep going!'} />
       </div>

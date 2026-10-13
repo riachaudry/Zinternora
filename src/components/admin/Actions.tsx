@@ -94,7 +94,14 @@ export function ActionForm({
     e.preventDefault();
     setBusy(true); setError(null); setDone(false);
     try {
-      const payload = { ...(extra ?? {}), ...(transform ? transform(values) : values) };
+      const coerced: Record<string, unknown> = {};
+      for (const f of fields) {
+        const v = values[f.name];
+        if (f.type === 'number') coerced[f.name] = Number(v);
+        else if (f.type === 'textarea') coerced[f.name] = String(v ?? '') || undefined;
+        else coerced[f.name] = v;
+      }
+      const payload = { ...(extra ?? {}), ...(transform ? transform(values) : coerced) };
       await send(url, payload, method);
       setDone(true);
       router.refresh();

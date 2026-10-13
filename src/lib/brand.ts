@@ -12,7 +12,7 @@ export const BRAND = {
   supportEmail: 'theinternorasupport@gmail.com',
   description: 'Project-Based Virtual Internships & Career Experience',
   // Real signature images supplied by the owners (public/signatures). Set a value to null to leave the line blank for a wet signature.
-  founder: { name: 'Faree Chaudhry', title: 'Founder & CEO', signatureImage: '/signatures/faree-chaudhry.png' as string | null },
+  founder: { name: 'Alee Chaudhry', title: 'Founder & CEO', signatureImage: '/signatures/alee-chaudhry.png' as string | null },
   hrManager: { name: 'Ria Chaudhry', title: 'HR Manager', signatureImage: '/signatures/ria-chaudhry.png' as string | null },
   hr: { name: 'Ria Chaudhry', whatsapp: '+966 54 786 0296', whatsappLink: 'https://wa.me/966547860296' },
   payment: {

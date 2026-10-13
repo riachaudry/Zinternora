@@ -145,11 +145,6 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
                   { name: 'final_project_score', label: 'Final project (0–100)', type: 'number', required: true, defaultValue: Number(internship.final_project_score ?? 0) },
                   { name: 'remarks', label: 'Remarks', type: 'textarea' },
                 ]}
-                transform={(v) => ({
-                  weekly_score: Number(v.weekly_score),
-                  final_project_score: Number(v.final_project_score),
-                  remarks: String(v.remarks || '') || undefined,
-                })}
               />
             </div>
           </Card>

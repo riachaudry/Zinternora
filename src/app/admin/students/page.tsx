@@ -48,7 +48,7 @@ export default async function AdminStudentsPage(props: { searchParams: Promise<{
                     <Avatar url={s.avatar_url} name={s.full_name} size={32} />
                     <div className="min-w-0">
                       <p className="truncate font-semibold text-ink">
-                        {s.full_name} {s.is_demo && <Badge>Demo</Badge>}
+                        <Link href={`/admin/students/${s.id}`} className="hover:underline">{s.full_name}</Link> {s.is_demo && <Badge>Demo</Badge>}
                       </p>
                       <p className="truncate text-[12px] text-slate-light">{s.email}</p>
                     </div>

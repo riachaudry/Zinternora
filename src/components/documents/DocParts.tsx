@@ -172,7 +172,6 @@ export function Sign({ person, org, align = 'left' }: { person: Person; org: str
           <img src={person.signatureImage} alt={`Signature of ${person.name}`} />
         )}
       </div>
-      <p className="od-sign-name">{person.name}</p>
       <p className="od-sign-title">{person.title}</p>
       <p className="od-sign-title">{org}</p>
     </div>
