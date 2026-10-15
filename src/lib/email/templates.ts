@@ -73,8 +73,11 @@ export const TEMPLATES: Record<TemplateKey, (c: Ctx) => { subject: string; html:
   }),
   offer_letter: (c) => ({
     subject: `Your offer letter — ${c.offerId}`,
-    html: shell('Offer letter issued',
-      `<p>Hi ${c.name},</p><p>Your offer letter <strong>${c.offerId}</strong> has been issued for ${c.field} (${c.duration} weeks).</p>`,
+    html: shell('Congratulations — your offer letter is ready',
+      `<p>Hi ${c.name},</p><p>Your offer letter <strong>${c.offerId}</strong> has been issued for <strong>${c.field}</strong> (${c.duration} weeks).</p>`
+      + (c.startDate && c.endDate ? `<p>Your internship runs from <strong>${c.startDate}</strong> to <strong>${c.endDate}</strong>.</p>` : '')
+      + (c.weekOneHeld ? `<p>Your Week 1 tasks will be opened by HR shortly and you will get a notification on your dashboard.</p>` : `<p>Week 1 is open now.</p>`)
+      + `<p>Please follow The Internora on LinkedIn and tag us when you post your task work.</p>`,
       { label: 'View offer letter', href: `${site()}/dashboard/offer-letter` }),
   }),
   internship_activated: (c) => ({

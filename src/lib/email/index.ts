@@ -22,6 +22,7 @@ export async function sendEmail(to: string, template: TemplateKey, context: Reco
       const res = await resend.emails.send({
         from: process.env.EMAIL_FROM ?? `${brand.name} <no-reply@internora.app>`,
         to, subject, html,
+        replyTo: brand.supportEmail,
       });
       if ((res as any)?.error) throw new Error((res as any).error.message);
     } else {

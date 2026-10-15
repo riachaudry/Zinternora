@@ -83,12 +83,21 @@ export async function activateInternship(opts: {
     `Offer letter ${offer.publicId} has been issued.`, '/dashboard/offer-letter');
 
   if (student?.email) {
-    await sendEmail(student.email, 'payment_verified', {
-      name: student.full_name, startDate: shortDate(start), endDate: shortDate(end),
-    });
-    await sendEmail(student.email, 'offer_letter', {
-      name: student.full_name, offerId: offer.publicId, field, duration,
-    });
+    if (holdWeekOne) {
+      // One clear email: offer letter + dates. Week 1 is opened later by HR from the dashboard.
+      await sendEmail(student.email, 'offer_letter', {
+        name: student.full_name, offerId: offer.publicId, field, duration,
+        startDate: shortDate(start), endDate: shortDate(end), weekOneHeld: true,
+      });
+    } else {
+      await sendEmail(student.email, 'payment_verified', {
+        name: student.full_name, startDate: shortDate(start), endDate: shortDate(end),
+      });
+      await sendEmail(student.email, 'offer_letter', {
+        name: student.full_name, offerId: offer.publicId, field, duration,
+        startDate: shortDate(start), endDate: shortDate(end),
+      });
+    }
   }
 
   await audit(adminId, 'internship.activate', 'internship', internship.id, { duration, start: isoDate(start) });
