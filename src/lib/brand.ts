@@ -53,3 +53,11 @@ export const WEEK_COMPLETION_THRESHOLD = 0.7;
 
 /** The Internora company page. Every student must follow it and tag it in their task post. */
 export const LINKEDIN_URL = 'https://www.linkedin.com/company/the-internora/';
+export const FACEBOOK_URL = 'https://www.facebook.com/share/1EsoR1ukqg/';
+export const TIKTOK_URL = 'https://vm.tiktok.com/ZN8BwuqXs/';
+/** Official The Internora pages, shown in the footer, contact page, task form and emails. */
+export const SOCIAL_LINKS = [
+  { label: 'LinkedIn', href: LINKEDIN_URL },
+  { label: 'Facebook', href: FACEBOOK_URL },
+  { label: 'TikTok', href: TIKTOK_URL },
+] as const;

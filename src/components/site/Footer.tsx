@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
-import { TRUST_STATEMENTS } from '@/lib/brand';
+import { TRUST_STATEMENTS, SOCIAL_LINKS } from '@/lib/brand';
 import { getBrand } from '@/lib/settings';
 
 const COLUMNS = [
@@ -22,6 +22,17 @@ export async function Footer() {
             <a href={brand.hrWhatsappLink} className="mt-1 inline-block hover:text-white">
               Chat with HR on WhatsApp
             </a>
+          </div>
+          <div className="mt-5">
+            <p className="text-[13px] font-semibold text-white">Follow The Internora</p>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {SOCIAL_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target="_blank" rel="noopener noreferrer"
+                     className="inline-block rounded-full border border-white/25 px-3.5 py-1.5 text-[13px] font-semibold text-white hover:bg-white/10">{l.label}</a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

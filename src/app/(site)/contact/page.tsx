@@ -1,3 +1,4 @@
+import { SOCIAL_LINKS } from '@/lib/brand';
 import { Card, SectionHead, Button, Alert } from '@/components/ui';
 import { getBrand } from '@/lib/settings';
 
@@ -24,6 +25,12 @@ export default async function ContactPage() {
             <a href={`mailto:${brand.supportEmail}`} className="underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>
           </p>
           <Button href={brand.hrWhatsappLink} className="mt-6 w-full">Open WhatsApp chat</Button>
+          <p className="mt-5 text-[13px] font-semibold text-slate-light">Follow us</p>
+          <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[15px] font-semibold">
+            {SOCIAL_LINKS.map((l) => (
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-signal underline underline-offset-4">{l.label}</a>
+            ))}
+          </p>
         </Card>
 
         <Card className="p-7">

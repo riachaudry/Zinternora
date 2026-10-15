@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Card, Button, Alert } from '@/components/ui';
 import { Uploader, type Uploaded } from '@/components/portal/Uploader';
 import { postJson } from '@/components/portal/form';
-import { LINKEDIN_URL } from '@/lib/brand';
+import { SOCIAL_LINKS } from '@/lib/brand';
 
 export function SubmitForm({ taskId, userId, submissionType, allowed, resubmit }: {
   taskId: string; userId: string; submissionType: string; allowed: string[]; resubmit: boolean;
@@ -61,8 +61,13 @@ export function SubmitForm({ taskId, userId, submissionType, allowed, resubmit }
             <li><strong>Your work link</strong> (GitHub, Figma, Google Drive, live demo).</li>
             <li><strong>Proof of the task</strong>: screenshots or a short screen-recording video. Upload the file below, or paste a Google Drive / YouTube (unlisted) link above.</li>
             <li><strong>A LinkedIn post</strong> about this task that mentions <strong>The Internora</strong> (tag our page). Paste the post link below.</li>
-            <li><strong>Follow our LinkedIn page</strong> (required for all interns):{' '}
-              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-signal underline">The Internora on LinkedIn</a>.
+            <li><strong>Follow our pages</strong> (required for all interns):{' '}
+              {SOCIAL_LINKS.map((l, i) => (
+                <React.Fragment key={l.label}>
+                  {i > 0 && ' · '}
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="font-semibold text-signal underline">{l.label}</a>
+                </React.Fragment>
+              ))}.
             </li>
           </ol>
         </div>
