@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { qrMatrix } from '@/lib/qr';
+import { SOCIAL_LINKS } from '@/lib/brand';
 
 export const NAVY = '#0B2D5B';
 export const GOLD = '#B8862B';
@@ -190,6 +191,15 @@ export function PageFooter({ website, email }: { website: string; email: string 
       <span>
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="1.5" /><path d="M3 6.5l9 7 9-7" /></svg>
         {email}
+      </span>
+      <span>
+        Follow us:{' '}
+        {SOCIAL_LINKS.map((l, i) => (
+          <React.Fragment key={l.label}>
+            {i > 0 && ' \u2022 '}
+            <a href={l.href} style={{ color: '#fff', textDecoration: 'none', fontWeight: 700 }}>{l.label}</a>
+          </React.Fragment>
+        ))}
       </span>
     </div>
   );
