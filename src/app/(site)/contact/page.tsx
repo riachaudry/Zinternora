@@ -15,14 +15,14 @@ export default async function ContactPage() {
       />
 
       <div className="mt-10 grid gap-5 md:grid-cols-2">
-        <Card className="p-7">
+        <Card className="min-w-0 p-5 sm:p-7">
           <h2 className="font-display text-lg font-bold">HR</h2>
           <p className="mt-3 text-[17px] font-semibold text-ink">{brand.hrName}</p>
           <p className="mt-4 text-[13px] font-semibold text-slate-light">WhatsApp</p>
           <p className="text-[15px] text-slate">Use the button below to chat with HR directly.</p>
           <p className="mt-4 text-[13px] font-semibold text-slate-light">Support email</p>
           <p className="text-[17px] font-semibold text-ink">
-            <a href={`mailto:${brand.supportEmail}`} className="underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>
+            <a href={`mailto:${brand.supportEmail}`} className="break-all underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>
           </p>
           <Button href={brand.hrWhatsappLink} className="mt-6 w-full">Open WhatsApp chat</Button>
           <p className="mt-5 text-[13px] font-semibold text-slate-light">Follow us</p>
@@ -33,7 +33,7 @@ export default async function ContactPage() {
           </p>
         </Card>
 
-        <Card className="p-7">
+        <Card className="min-w-0 p-5 sm:p-7">
           <h2 className="font-display text-lg font-bold">Already enrolled?</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-slate">
             Open a support ticket from your dashboard. Tickets are linked to your student ID and
@@ -42,7 +42,7 @@ export default async function ContactPage() {
           </p>
           <p className="mt-3 text-[14px] text-slate">
             Or email us at{' '}
-            <a href={`mailto:${brand.supportEmail}`} className="font-semibold text-ink underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>.
+            <a href={`mailto:${brand.supportEmail}`} className="break-all font-semibold text-ink underline decoration-amber/60 underline-offset-4">{brand.supportEmail}</a>.
           </p>
           <Button href="/dashboard/support" variant="secondary" className="mt-6 w-full">Go to support</Button>
         </Card>

@@ -61,7 +61,7 @@
 }
 
 @layer base {
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body {
     @apply text-ink font-sans antialiased;
     background-color: rgb(var(--page));

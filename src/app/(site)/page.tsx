@@ -10,10 +10,10 @@ export default async function HomePage() {
     <>
       {/* Hero: the week strip is the product, so it leads. */}
       <section className="bg-ink text-white">
-        <div className="wrap grid gap-12 py-16 lg:grid-cols-[1.05fr_.95fr] lg:py-24">
-          <div>
-            <h1 className="font-display text-[2.6rem] font-extrabold leading-[1.08] sm:text-[3.4rem]">
-              Virtual Internships.<br />Real Experience.
+        <div className="wrap grid grid-cols-1 gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_.95fr] lg:gap-12 lg:py-24">
+          <div className="min-w-0">
+            <h1 className="font-display text-[2.05rem] font-extrabold leading-[1.1] min-[400px]:text-[2.4rem] sm:text-[3.4rem]">
+              Virtual Internships.{" "}<br className="hidden sm:block" />Real Experience.
             </h1>
             <p className="mt-5 max-w-[52ch] text-[17px] leading-relaxed text-white/75">
               Build practical experience through structured online projects, real-world tasks,
@@ -26,17 +26,17 @@ export default async function HomePage() {
                 Apply now
               </Button>
             </div>
-            <dl className="mt-11 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-7">
+            <dl className="mt-9 grid max-w-md grid-cols-3 gap-4 sm:mt-11 sm:gap-6 border-t border-white/10 pt-7">
               {[['16', 'internship fields'], ['4', 'week program'], ['Weekly', 'reviewed submissions']].map(([v, l]) => (
-                <div key={l}>
-                  <dt className="font-display text-xl font-extrabold">{v}</dt>
-                  <dd className="mt-1 text-[13px] text-white/60">{l}</dd>
+                <div key={l} className="min-w-0">
+                  <dt className="font-display text-lg sm:text-xl font-extrabold">{v}</dt>
+                  <dd className="mt-1 text-[12px] leading-snug text-white/60 sm:text-[13px]">{l}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <WeekStrip />
+          <div className="min-w-0"><WeekStrip /></div>
         </div>
       </section>
 
@@ -143,14 +143,13 @@ function WeekStrip() {
     { n: 1, title: 'HTML foundations', state: 'done' },
     { n: 2, title: 'CSS and responsive design', state: 'done' },
     { n: 3, title: 'JavaScript', state: 'active' },
-    { n: 4, title: 'Frontend project', state: 'locked' },
-    { n: 5, title: 'Working with APIs', state: 'locked' },
+    { n: 4, title: 'Final project', state: 'locked' },
   ];
   return (
     <div className="rounded-2xl border border-white/12 bg-white/[.04] p-5 sm:p-6">
       <div className="flex items-baseline justify-between">
         <p className="font-display text-[15px] font-bold text-white">Web Development · 4 weeks</p>
-        <span className="text-[12px] text-white/50">Day 17 of 56</span>
+        <span className="text-[12px] text-white/50">Day 17 of 28</span>
       </div>
       <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
         <div className="h-full rounded-full bg-[#38B48E]" style={{ width: '30%' }} />
@@ -158,7 +157,7 @@ function WeekStrip() {
       <ul className="mt-5 space-y-2">
         {weeks.map((w) => (
           <li key={w.n}
-              className={`flex items-center gap-3 rounded-xl border px-3.5 py-3 ${
+              className={`flex items-center gap-3 rounded-xl border px-3 py-3 sm:px-3.5 ${
                 w.state === 'active'
                   ? 'border-[#38B48E]/50 bg-[#38B48E]/10'
                   : 'border-white/10 bg-white/[.03]'
@@ -173,7 +172,7 @@ function WeekStrip() {
               <span className="block text-[14px] font-semibold text-white">Week {w.n}</span>
               <span className="block truncate text-[12px] text-white/50">{w.title}</span>
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-white/45">
+            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-white/45 sm:text-[11px]">
               {w.state === 'done' ? 'Complete' : w.state === 'active' ? 'In progress' : 'Locked'}
             </span>
           </li>
