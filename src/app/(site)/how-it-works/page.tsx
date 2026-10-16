@@ -1,7 +1,7 @@
 import { Button, Card, SectionHead, Alert } from '@/components/ui';
 import { BRAND } from '@/lib/brand';
 
-export const metadata = { title: 'How it works' };
+export const metadata = { title: 'How it works', description: 'How The Internora works: apply, get your offer letter, complete weekly tasks, get reviewed and earn your certificate.', alternates: { canonical: '/how-it-works' } };
 
 const STEPS = [
   ['Register', 'Create an account with your real details, upload a profile photo and complete your profile. Your student ID is generated automatically.'],

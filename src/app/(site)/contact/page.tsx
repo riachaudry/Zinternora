@@ -2,7 +2,7 @@ import { SOCIAL_LINKS } from '@/lib/brand';
 import { Card, SectionHead, Button, Alert } from '@/components/ui';
 import { getBrand } from '@/lib/settings';
 
-export const metadata = { title: 'Contact' };
+export const metadata = { title: 'Contact', description: 'Contact The Internora support team on WhatsApp or email for help with applications and internships.', alternates: { canonical: '/contact' } };
 
 export default async function ContactPage() {
   const brand = await getBrand();

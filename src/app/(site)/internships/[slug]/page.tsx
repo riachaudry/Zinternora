@@ -10,7 +10,11 @@ export function generateStaticParams() {
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const field = roadmapBySlug(params.slug);
-  return { title: field?.name ?? 'Internship' };
+  return {
+    title: `${field?.name ?? 'Internship'} Virtual Internship`,
+    description: `${field?.description ?? ''} Apply for the ${field?.name ?? ''} virtual internship at The Internora and earn an offer letter and certificate.`.slice(0, 300),
+    alternates: { canonical: `/internships/${params.slug}` },
+  };
 }
 
 export default async function FieldPage(

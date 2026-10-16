@@ -1,7 +1,7 @@
 import { Card, SectionHead, Alert, Button } from '@/components/ui';
 import { getBrand } from '@/lib/settings';
 
-export const metadata = { title: 'About' };
+export const metadata = { title: 'About', description: 'About The Internora: structured, mentor-reviewed virtual internships with real projects and verifiable certificates.', alternates: { canonical: '/about' } };
 
 export default async function AboutPage() {
   const brand = await getBrand();

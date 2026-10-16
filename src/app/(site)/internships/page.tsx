@@ -3,7 +3,7 @@ import { SectionHead, Card } from '@/components/ui';
 import { ROADMAPS } from '@/lib/roadmaps';
 import { PLANS, DURATIONS, formatPKR } from '@/lib/brand';
 
-export const metadata = { title: 'Internships' };
+export const metadata = { title: 'Virtual Internships in 16 Fields', description: 'Browse The Internora virtual internships: web development, design, marketing, data and more. 4 weeks, real projects, certificate included.', alternates: { canonical: '/internships' } };
 
 export default function InternshipsPage() {
   return (

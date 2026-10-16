@@ -2,7 +2,7 @@ import { Button, Card, SectionHead, Alert } from '@/components/ui';
 import { PLANS, DURATIONS, formatPKR } from '@/lib/brand';
 import { getBrand } from '@/lib/settings';
 
-export const metadata = { title: 'Pricing' };
+export const metadata = { title: 'Pricing', description: 'The Internora program fee for the 4-week virtual internship, including offer letter, certificate and letter of recommendation.', alternates: { canonical: '/pricing' } };
 
 export default async function PricingPage() {
   const brand = await getBrand();

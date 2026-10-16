@@ -2,7 +2,7 @@ import { SectionHead, Button } from '@/components/ui';
 import { formatPKR, PLANS } from '@/lib/brand';
 import { getBrand } from '@/lib/settings';
 
-export const metadata = { title: 'FAQ' };
+export const metadata = { title: 'FAQ', description: 'Answers about The Internora virtual internships: fees, duration, certificates, offer letters and how tasks are reviewed.', alternates: { canonical: '/faq' } };
 
 const faqs = (brand: Awaited<ReturnType<typeof getBrand>>): [string, string][] => [
   ['Is this a paid internship?', `No. ${brand.name} is a paid-for training program: you pay a one-time fee (${formatPKR(PLANS[4].fee)}) for the 1-month program. ${brand.name} does not pay a stipend or salary.`],
