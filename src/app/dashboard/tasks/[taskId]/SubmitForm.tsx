@@ -24,8 +24,8 @@ export function SubmitForm({ taskId, userId, submissionType, allowed, resubmit }
     e.preventDefault();
     setError(null);
     const li = linkedin.trim();
-    if (!/^https?:\/\/([a-z]+\.)?linkedin\.com\//i.test(li)) {
-      setError('Paste the link of your LinkedIn post (it should start with https://www.linkedin.com/).');
+    if (!/^https?:\/\/([a-z0-9-]+\.)*(linkedin\.com|lnkd\.in)\//i.test(li)) {
+      setError('Paste the link of your LinkedIn post (it should start with https://www.linkedin.com/ or https://lnkd.in/).');
       return;
     }
     setBusy(true);
