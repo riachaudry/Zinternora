@@ -16,9 +16,9 @@ export const BRAND = {
   hrManager: { name: 'Ria Chaudhry', title: 'HR Manager', signatureImage: '/signatures/ria-chaudhry.png' as string | null },
   hr: { name: 'Ria Chaudhry', whatsapp: '+966 54 786 0296', whatsappLink: 'https://wa.me/966547860296' },
   payment: {
-    accountName: 'Farkhanda',
-    bankName: 'Bank Alfalah',
-    iban: 'PK86BAHL0016098101818801',
+    accountName: 'Rahat Maqsood',
+    bankName: 'Bank Islami',
+    iban: 'PK33BKIP9999903049666343',
     // Bank transfer is the only payment method (JazzCash was removed).
     methods: [
       { id: 'bank_transfer', label: 'Bank Transfer' },
