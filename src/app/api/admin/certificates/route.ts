@@ -8,7 +8,7 @@ import { ok, fail, zodFail } from '../../_lib';
 
 const schema = z.object({
   internship_id: z.string().uuid(),
-  action: z.enum(['issue', 'revoke', 'reinstate']),
+  action: z.enum(['issue', 'force_issue', 'revoke', 'reinstate']),
   reason: z.string().max(500).optional(),
 });
 
@@ -22,6 +22,14 @@ export async function POST(req: NextRequest) {
     if (action === 'issue') {
       const result = await issueCertificate(internship_id, admin.id);
       return ok(result);
+    }
+
+    if (action === 'force_issue') {
+      // Owner decision: issue even if the student did not submit every task.
+      const db0 = createAdminClient();
+      await db0.from('internships').update({ status: 'completed', completed_at: new Date().toISOString() })
+        .eq('id', internship_id).neq('status', 'completed');
+      return ok(await issueCertificate(internship_id, admin.id, { force: true }));
     }
 
     const db = createAdminClient();

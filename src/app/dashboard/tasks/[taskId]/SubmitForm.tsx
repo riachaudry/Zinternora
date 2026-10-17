@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Card, Button, Alert } from '@/components/ui';
 import { Uploader, type Uploaded } from '@/components/portal/Uploader';
 import { postJson } from '@/components/portal/form';
-import { SOCIAL_LINKS } from '@/lib/brand';
+import { SOCIAL_LINKS, BRAND } from '@/lib/brand';
 
 export function SubmitForm({ taskId, userId, submissionType, allowed, resubmit }: {
   taskId: string; userId: string; submissionType: string; allowed: string[]; resubmit: boolean;
@@ -101,9 +101,21 @@ export function SubmitForm({ taskId, userId, submissionType, allowed, resubmit }
           <textarea rows={2} value={comments} onChange={(e) => setComments(e.target.value)} />
         </label>
 
-        {error && <Alert tone="bad">{error}</Alert>}
+        {error && (
+          <Alert tone="bad">
+            {error}{' '}
+            <a href={BRAND.hr.whatsappLink} target="_blank" rel="noopener noreferrer" className="font-semibold underline">
+              Message HR on WhatsApp
+            </a>
+          </Alert>
+        )}
 
         <Button type="submit" disabled={busy}>{busy ? 'Submitting…' : 'Submit for review'}</Button>
+        <p className="rounded-lg bg-mist/60 p-3 text-[13px] text-slate">
+          Having trouble submitting, or seeing an error? Do not worry: send a message directly to HR on{' '}
+          <a href={BRAND.hr.whatsappLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-signal underline">WhatsApp</a>{' '}
+          and we will help you.
+        </p>
         <p className="text-[12px] text-slate-light">
           Your LinkedIn post link is required. Add your work link and/or proof (file) as well so the evaluator can review it.
         </p>

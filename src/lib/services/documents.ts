@@ -6,19 +6,20 @@ import { audit } from '../audit';
 import { getBrand } from '../settings';
 
 /** Certificates are only issued once the published completion criteria are met. */
-export async function issueCertificate(internshipId: string, adminId: string | null) {
+export async function issueCertificate(internshipId: string, adminId: string | null, opts: { force?: boolean } = {}) {
   const db = createAdminClient();
 
   const { data: internship } = await db.from('internships')
     .select('id, student_id, duration, status, overall_score, internship_fields(name), profiles!internships_student_id_fkey(full_name,email)')
     .eq('id', internshipId).single();
   if (!internship) throw new Error('Internship not found.');
-  if (internship.status !== 'completed') throw new Error('The internship must be complete before a certificate is issued.');
-
-  const { count: incomplete } = await db.from('internship_weeks')
-    .select('id', { count: 'exact', head: true })
-    .eq('internship_id', internshipId).neq('status', 'completed');
-  if ((incomplete ?? 0) > 0) throw new Error('Every week must be completed first.');
+  if (!opts.force) {
+    if (internship.status !== 'completed') throw new Error('The internship must be complete before a certificate is issued.');
+    const { count: incomplete } = await db.from('internship_weeks')
+      .select('id', { count: 'exact', head: true })
+      .eq('internship_id', internshipId).neq('status', 'completed');
+    if ((incomplete ?? 0) > 0) throw new Error('Every week must be completed first.');
+  }
 
   const { data: existing } = await db.from('certificates')
     .select('public_id').eq('internship_id', internshipId).maybeSingle();
@@ -42,17 +43,26 @@ export async function issueCertificate(internshipId: string, adminId: string | n
       score: internship.overall_score,
     });
   }
-  await audit(adminId, 'certificate.issue', 'certificate', cert.public_id);
+  await audit(adminId, opts.force ? 'certificate.issue_override' : 'certificate.issue', 'certificate', cert.public_id);
   return { publicId: cert.public_id, alreadyIssued: false };
 }
 
 /** LORs are drafted by admin, then approved and issued. Only for completed internships. */
-export async function issueLor(internshipId: string, adminId: string | null) {
+export async function issueLor(internshipId: string, adminId: string | null, opts: { force?: boolean } = {}) {
   const db = createAdminClient();
   const { data: done } = await db.from('internships').select('status').eq('id', internshipId).single();
-  if (done?.status !== 'completed') throw new Error('The internship must be successfully completed before a letter of recommendation is issued.');
-  const { data: lor } = await db.from('lor_records')
-    .select('id, public_id, status').eq('internship_id', internshipId).single();
+  if (!opts.force && done?.status !== 'completed') throw new Error('The internship must be successfully completed before a letter of recommendation is issued.');
+  let { data: lor } = await db.from('lor_records')
+    .select('id, public_id, status').eq('internship_id', internshipId).maybeSingle();
+  if (!lor && opts.force) {
+    // Standard letter: only real facts (name, domain, dates) are printed; no praise is invented.
+    const { data: pid } = await db.rpc('next_public_id', { p_prefix: 'INT-LOR', p_scope: 'lor' });
+    const { data: created, error: createErr } = await db.from('lor_records')
+      .insert({ internship_id: internshipId, public_id: pid as unknown as string, status: 'draft' })
+      .select('id, public_id, status').single();
+    if (createErr) throw new Error(createErr.message);
+    lor = created;
+  }
   if (!lor) throw new Error('Draft the letter before issuing it.');
   if (lor.status === 'issued') return { publicId: lor.public_id, alreadyIssued: true };
 
@@ -72,7 +82,7 @@ export async function issueLor(internshipId: string, adminId: string | null) {
       name: student.full_name, lorId: lor.public_id,
     });
   }
-  await audit(adminId, 'lor.issue', 'lor', lor.public_id);
+  await audit(adminId, opts.force ? 'lor.issue_override' : 'lor.issue', 'lor', lor.public_id);
   return { publicId: lor.public_id, alreadyIssued: false };
 }
 

@@ -2,13 +2,14 @@ import { type NextRequest } from 'next/server';
 import { apiAdmin } from '@/lib/auth';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { completeInternship, recomputeScores, unlockNextWeek } from '@/lib/services/internship';
+import { issueCertificate, issueLor } from '@/lib/services/documents';
 import { notify } from '@/lib/notifications';
 import { audit } from '@/lib/audit';
 import { z } from 'zod';
 import { ok, fail, zodFail } from '../../../_lib';
 
 const schema = z.object({
-  action: z.enum(['recompute', 'complete', 'terminate', 'reactivate', 'unlock_week', 'record_evaluation']),
+  action: z.enum(['recompute', 'complete', 'terminate', 'reactivate', 'unlock_week', 'record_evaluation', 'force_certificate', 'force_lor']),
   week_number: z.number().int().min(1).max(8).optional(),
   remarks: z.string().max(2000).optional(),
 });
@@ -35,6 +36,17 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     if (action === 'complete') {
       const result = await completeInternship(internship.id);
       await audit(admin.id, 'internship.complete', 'internship', internship.id);
+      return ok(result);
+    }
+
+    if (action === 'force_certificate' || action === 'force_lor') {
+      // Owner decision: documents can be issued whether or not the student submitted every task.
+      if (internship.status !== 'completed') {
+        await db.from('internships').update({ status: 'completed', completed_at: new Date().toISOString() }).eq('id', internship.id);
+      }
+      const result = action === 'force_certificate'
+        ? await issueCertificate(internship.id, admin.id, { force: true })
+        : await issueLor(internship.id, admin.id, { force: true });
       return ok(result);
     }
 

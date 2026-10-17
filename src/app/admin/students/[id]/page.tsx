@@ -130,6 +130,22 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
           </Card>
 
           <Card className="p-5">
+            <h2 className="font-display text-[15px] font-bold text-ink">Issue documents now (your decision)</h2>
+            <p className="mt-1.5 text-[13.5px] text-slate-light">
+              You can give this student a certificate and/or a letter of recommendation at any time, even if they have not
+              submitted every task. The student gets it on their dashboard and by email. The internship is marked completed.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'force_certificate' }} variant="primary" size="md"
+                            label="Issue certificate now" busyLabel="Issuing…"
+                            confirm="Issue the certificate to this student now? This marks the internship as completed." />
+              <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'force_lor' }} variant="secondary" size="md"
+                            label="Issue LOR now" busyLabel="Issuing…"
+                            confirm="Issue the letter of recommendation to this student now? This marks the internship as completed." />
+            </div>
+          </Card>
+
+          <Card className="p-5">
             <h2 className="font-display text-[15px] font-bold text-ink">Record final evaluation</h2>
             <p className="mt-1.5 text-[13.5px] text-slate-light">
               The overall score is computed from the published weights, not typed by hand.

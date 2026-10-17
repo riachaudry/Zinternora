@@ -26,7 +26,7 @@ export default async function AdminCertificatesPage() {
   return (
     <div className="space-y-6">
       <SectionHead title="Certificates"
-                   body="Certificates are issued after meeting the published completion criteria: all weeks complete and the final project approved. The server refuses to issue one otherwise." />
+                   body="Certificates are issued after meeting the published completion criteria: all weeks complete and the final project approved. The Issue anyway button lets you, as the owner, issue one at your own discretion." />
 
       <div>
         <h2 className="font-display text-lg font-bold">Ready to issue</h2>
@@ -53,7 +53,10 @@ export default async function AdminCertificatesPage() {
                   </div>
                   <DocActions endpoint="/api/admin/certificates"
                               body={{ internship_id: i.id }}
-                              actions={[{ key: 'issue', label: 'Issue certificate' }]} />
+                              actions={[
+                                { key: 'issue', label: 'Issue certificate' },
+                                { key: 'force_issue', label: 'Issue anyway (my decision)', variant: 'secondary' },
+                              ]} />
                 </Card>
               );
             })}
