@@ -65,7 +65,7 @@ export default async function AdminPaymentsPage(props: { searchParams: Promise<{
       <Alert tone="info" title="Official payment details">
         <p className="mt-1">
           Bank Transfer · Account name {brand.accountName} ·
-          {brand.bankName} · IBAN {brand.iban}. Any proof naming a different account should be rejected.
+          {brand.bankName} · IBAN {brand.iban}, or {brand.account2Name} · {brand.bank2Name} · IBAN {brand.iban2}. Any proof naming a different account should be rejected.
         </p>
       </Alert>
 

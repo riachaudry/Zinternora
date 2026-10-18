@@ -50,8 +50,8 @@ export default async function ContactPage() {
 
       <Alert tone="warn" title="One payment account only">
         <p className="mt-1">
-          {brand.name} collects fees at a single Bank Transfer account: {brand.accountName},
-          {brand.bankName}, IBAN {brand.iban}. If anyone asks you to send money anywhere else, it is not us.
+          {brand.name} collects fees only at these two accounts: {brand.accountName},
+          {brand.bankName}, IBAN {brand.iban}; and {brand.account2Name}, {brand.bank2Name}, IBAN {brand.iban2}. If anyone asks you to send money anywhere else, it is not us.
           We never ask for your password, OTP or PIN.
         </p>
       </Alert>

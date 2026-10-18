@@ -8,6 +8,7 @@ import type { BrandSettings } from '@/lib/settings';
 type Form = {
   name: string; tagline: string; motto: string; website: string; supportEmail: string; logoUrl: string;
   hrName: string; hrWhatsapp: string; accountName: string; bankName: string; iban: string;
+  account2Name: string; bank2Name: string; iban2: string;
   founderName: string; founderTitle: string; founderSignature: string;
   hrManagerName: string; hrManagerTitle: string; hrManagerSignature: string;
   autoCertificate: boolean; autoLor: boolean;
@@ -22,6 +23,7 @@ export function BrandSettingsForm({ brand, adminId }: { brand: BrandSettings; ad
     name: brand.name, tagline: brand.tagline, motto: brand.motto, website: brand.website, supportEmail: brand.supportEmail,
     logoUrl: brand.logoUrl ?? '', hrName: brand.hrName, hrWhatsapp: brand.hrWhatsapp,
     accountName: brand.accountName, bankName: brand.bankName, iban: brand.iban,
+    account2Name: brand.account2Name, bank2Name: brand.bank2Name, iban2: brand.iban2,
     founderName: brand.founder.name, founderTitle: brand.founder.title, founderSignature: brand.founder.signatureImage ?? '',
     hrManagerName: brand.hrManager.name, hrManagerTitle: brand.hrManager.title, hrManagerSignature: brand.hrManager.signatureImage ?? '',
     autoCertificate: brand.autoCertificate, autoLor: brand.autoLor,
@@ -94,6 +96,12 @@ export function BrandSettingsForm({ brand, adminId }: { brand: BrandSettings; ad
           <label className="form-row"><span>Account name</span><input value={f.accountName} onChange={set('accountName')} required maxLength={60} /></label>
           <label className="form-row"><span>Bank name</span><input value={f.bankName} onChange={set('bankName')} required maxLength={60} /></label>
           <label className="form-row sm:col-span-2"><span>IBAN</span><input value={f.iban} onChange={set('iban')} required maxLength={34} className="font-mono" /></label>
+        </div>
+        <h3 className="mt-5 font-display text-[15px] font-bold text-ink">Second payment account (Easypaisa)</h3>
+        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+          <label className="form-row"><span>Account name</span><input value={f.account2Name} onChange={set('account2Name')} required maxLength={60} /></label>
+          <label className="form-row"><span>Bank / wallet name</span><input value={f.bank2Name} onChange={set('bank2Name')} required maxLength={60} /></label>
+          <label className="form-row sm:col-span-2"><span>IBAN</span><input value={f.iban2} onChange={set('iban2')} required maxLength={34} className="font-mono" /></label>
         </div>
       </Card>
 

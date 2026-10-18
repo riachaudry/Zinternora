@@ -54,6 +54,10 @@ export default async function PricingPage() {
               <dt className="text-slate-light">Bank / IBAN</dt>
               <dd className="break-all text-right font-mono font-semibold text-ink">{brand.bankName}<br />{brand.iban}</dd>
             </div>
+            <div className="flex justify-between gap-4 border-t border-mist-deep pt-2">
+              <dt className="text-slate-light">2nd account</dt>
+              <dd className="break-all text-right font-mono font-semibold text-ink">{brand.account2Name} · {brand.bank2Name}<br />{brand.iban2}</dd>
+            </div>
           </dl>
           <p className="mt-4 text-[13px] text-slate-light">
             Payments are verified manually against your transaction ID and screenshot. Never send

@@ -12,7 +12,7 @@ type Field = {
   evaluation_criteria: string; certificate_criteria: string;
 };
 
-export function ApplyForm({ fields, userId, brand, preselect }: { fields: Field[]; userId: string; preselect?: string; brand: { accountName: string; bankName: string; iban: string } }) {
+export function ApplyForm({ fields, userId, brand, preselect }: { fields: Field[]; userId: string; preselect?: string; brand: { accountName: string; bankName: string; iban: string; account2Name: string; bank2Name: string; iban2: string } }) {
   const [txn, setTxn] = React.useState('');
   const [payDate, setPayDate] = React.useState(isoDate(new Date()));
   const [screenshot, setScreenshot] = React.useState<string | null>(null);
@@ -94,6 +94,10 @@ export function ApplyForm({ fields, userId, brand, preselect }: { fields: Field[
             <div><dt className="text-[12px] font-semibold text-slate-light">Account name</dt><dd className="font-semibold text-ink">{brand.accountName}</dd></div>
             <div><dt className="text-[12px] font-semibold text-slate-light">Bank</dt><dd className="font-semibold text-ink">{brand.bankName}</dd></div>
             <div><dt className="text-[12px] font-semibold text-slate-light">IBAN</dt><dd className="break-all font-mono text-[13px] font-bold text-ink">{brand.iban}</dd></div>
+            <div className="sm:col-span-3 border-t border-mist-deep pt-3">
+              <dt className="text-[12px] font-semibold text-slate-light">Or pay to this 2nd account</dt>
+              <dd className="font-semibold text-ink">{brand.account2Name} · {brand.bank2Name} · <span className="break-all font-mono text-[13px] font-bold">{brand.iban2}</span></dd>
+            </div>
           </dl>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="form-row"><span>Transaction ID</span>

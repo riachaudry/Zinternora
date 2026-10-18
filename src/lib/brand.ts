@@ -19,6 +19,10 @@ export const BRAND = {
     accountName: 'Rahat Maqsood',
     bankName: 'Bank Islami',
     iban: 'PK33BKIP9999903049666343',
+    // Second account (Easypaisa).
+    account2Name: 'Rahat',
+    bank2Name: 'Easypaisa',
+    iban2: 'PK03TMFB0000000070379118',
     // Bank transfer is the only payment method (JazzCash was removed).
     methods: [
       { id: 'bank_transfer', label: 'Bank Transfer' },

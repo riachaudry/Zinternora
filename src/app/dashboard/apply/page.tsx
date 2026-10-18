@@ -39,7 +39,7 @@ export default async function ApplyPage(props: { searchParams: Promise<{ field?:
         body="Pick one internship field for the 1-month program. Attach your payment screenshot as proof while applying (or on the next page); once payment is verified, your offer letter and Week 1 appear automatically."
       />
       <ApplyForm fields={fields ?? []} preselect={sp.field} userId={profile.id}
-                 brand={{ accountName: brand.accountName, bankName: brand.bankName, iban: brand.iban }} />
+                 brand={{ accountName: brand.accountName, bankName: brand.bankName, iban: brand.iban, account2Name: brand.account2Name, bank2Name: brand.bank2Name, iban2: brand.iban2 }} />
     </div>
   );
 }

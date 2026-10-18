@@ -16,6 +16,7 @@ export type BrandSettings = {
   website: string; supportEmail: string; logoUrl: string | null;
   hrName: string; hrWhatsapp: string; hrWhatsappLink: string;
   accountName: string; bankName: string; iban: string;
+  account2Name: string; bank2Name: string; iban2: string;
   founder: Signatory; hrManager: Signatory;
   /** Issue the Certificate automatically the moment an internship is successfully completed (default on). */
   autoCertificate: boolean;
@@ -27,6 +28,7 @@ export type BrandSettings = {
 export type StoredBrand = Partial<{
   name: string; tagline: string; motto: string; website: string; supportEmail: string; logoUrl: string | null;
   hrName: string; hrWhatsapp: string; accountName: string; bankName: string; iban: string;
+  account2Name: string; bank2Name: string; iban2: string;
   founderName: string; founderTitle: string; founderSignature: string | null;
   hrManagerName: string; hrManagerTitle: string; hrManagerSignature: string | null;
   autoCertificate: boolean; autoLor: boolean;
@@ -40,6 +42,7 @@ export function brandDefaults(): BrandSettings {
     website: BRAND.website, supportEmail: BRAND.supportEmail, logoUrl: BRAND.logoMark,
     hrName: BRAND.hr.name, hrWhatsapp: BRAND.hr.whatsapp, hrWhatsappLink: BRAND.hr.whatsappLink,
     accountName: BRAND.payment.accountName, bankName: BRAND.payment.bankName, iban: BRAND.payment.iban,
+    account2Name: BRAND.payment.account2Name, bank2Name: BRAND.payment.bank2Name, iban2: BRAND.payment.iban2,
     founder: { ...BRAND.founder }, hrManager: { ...BRAND.hrManager },
     autoCertificate: true, autoLor: false,
   };
@@ -65,6 +68,7 @@ export function mergeBrand(o: StoredBrand | null): BrandSettings {
     logoUrl: img(o, 'logoUrl', d.logoUrl),
     hrName: str(o.hrName, d.hrName), hrWhatsapp, hrWhatsappLink: whatsappLink(hrWhatsapp),
     accountName: str(o.accountName, d.accountName), bankName: str(o.bankName, d.bankName), iban: str(o.iban, d.iban),
+    account2Name: str(o.account2Name, d.account2Name), bank2Name: str(o.bank2Name, d.bank2Name), iban2: str(o.iban2, d.iban2),
     founder: { name: str(o.founderName, d.founder.name), title: str(o.founderTitle, d.founder.title), signatureImage: sig(o, 'founderSignature', d.founder.signatureImage) },
     hrManager: { name: str(o.hrManagerName, d.hrManager.name), title: str(o.hrManagerTitle, d.hrManager.title), signatureImage: sig(o, 'hrManagerSignature', d.hrManager.signatureImage) },
     autoCertificate: typeof o.autoCertificate === 'boolean' ? o.autoCertificate : d.autoCertificate,
