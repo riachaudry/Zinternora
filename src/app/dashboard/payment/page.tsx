@@ -101,8 +101,8 @@ export default async function PaymentPage() {
               <div><dt className="text-[12px] font-semibold text-slate-light">Bank IBAN</dt>
                 <dd className="break-all font-mono text-[14px] font-bold text-ink">{brand.iban}</dd></div>
               <div className="border-t border-mist pt-3">
-                <dt className="text-[12px] font-semibold text-slate-light">Or pay to (2nd account)</dt>
-                <dd className="font-semibold text-ink">{brand.account2Name} · {brand.bank2Name}</dd>
+                <dt className="text-[12px] font-semibold text-slate-light">Or pay by {brand.bank2Name}</dt>
+                <dd className="font-semibold text-ink">{brand.account2Name}</dd>
                 <dd className="break-all font-mono text-[14px] font-bold text-ink">{brand.iban2}</dd></div>
               <div className="border-t border-mist pt-3">
                 <dt className="text-[12px] font-semibold text-slate-light">Amount to send</dt>

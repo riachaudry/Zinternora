@@ -95,8 +95,8 @@ export function ApplyForm({ fields, userId, brand, preselect }: { fields: Field[
             <div><dt className="text-[12px] font-semibold text-slate-light">Bank</dt><dd className="font-semibold text-ink">{brand.bankName}</dd></div>
             <div><dt className="text-[12px] font-semibold text-slate-light">IBAN</dt><dd className="break-all font-mono text-[13px] font-bold text-ink">{brand.iban}</dd></div>
             <div className="sm:col-span-3 border-t border-mist-deep pt-3">
-              <dt className="text-[12px] font-semibold text-slate-light">Or pay to this 2nd account</dt>
-              <dd className="font-semibold text-ink">{brand.account2Name} · {brand.bank2Name} · <span className="break-all font-mono text-[13px] font-bold">{brand.iban2}</span></dd>
+              <dt className="text-[12px] font-semibold text-slate-light">Or pay by {brand.bank2Name}</dt>
+              <dd className="font-semibold text-ink">{brand.account2Name} · <span className="break-all font-mono text-[13px] font-bold">{brand.iban2}</span></dd>
             </div>
           </dl>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
