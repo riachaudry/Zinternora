@@ -8,6 +8,7 @@ import { taskCode } from '../ids';
 import { computeScores, isWeekComplete } from '../scoring';
 import { notify } from '../notifications';
 import { sendEmail } from '../email';
+import { pdfBrand, offerLetterPdf, weekTasksPdf, SOCIAL } from '../pdf';
 import { audit } from '../audit';
 import { WEEK_COMPLETION_THRESHOLD, type Duration } from '../brand';
 
@@ -82,13 +83,24 @@ export async function activateInternship(opts: {
   await notify(app.student_id, 'offer_letter_issued',
     `Offer letter ${offer.publicId} has been issued.`, '/dashboard/offer-letter');
 
+  // PDF copy of the offer letter. If PDF building fails the email still goes out without it.
+  let offerAtt: { filename: string; content: Uint8Array }[] = [];
+  try {
+    const pb = await pdfBrand();
+    const pdf = await offerLetterPdf(pb, {
+      publicId: offer.publicId, issueDate: shortDate(new Date()), studentName: student?.full_name ?? 'Intern',
+      field, duration, startDate: shortDate(start), endDate: shortDate(end),
+    });
+    offerAtt = [{ filename: `Offer-Letter-${offer.publicId}.pdf`, content: pdf }];
+  } catch (e) { console.error('[offer pdf]', e); }
+
   if (student?.email) {
     if (holdWeekOne) {
       // One clear email: offer letter + dates. Week 1 is opened later by HR from the dashboard.
       await sendEmail(student.email, 'offer_letter', {
         name: student.full_name, offerId: offer.publicId, field, duration,
         startDate: shortDate(start), endDate: shortDate(end), weekOneHeld: true,
-      });
+      }, offerAtt);
     } else {
       await sendEmail(student.email, 'payment_verified', {
         name: student.full_name, startDate: shortDate(start), endDate: shortDate(end),
@@ -96,7 +108,7 @@ export async function activateInternship(opts: {
       await sendEmail(student.email, 'offer_letter', {
         name: student.full_name, offerId: offer.publicId, field, duration,
         startDate: shortDate(start), endDate: shortDate(end),
-      });
+      }, offerAtt);
     }
   }
 
@@ -306,10 +318,29 @@ export async function unlockNextWeek(internshipId: string, afterWeek: number) {
 
   const student = (internship as any)?.profiles;
   if (student?.email) {
+    let weekAtt: { filename: string; content: Uint8Array }[] = [];
+    try {
+      const { data: tasks } = await db.from('internship_tasks')
+        .select('task_code, title, description, instructions, objective, deliverable, points, task_number')
+        .eq('week_id', next.id).order('task_number');
+      const { data: fieldRow } = await db.from('internships')
+        .select('internship_fields(name)').eq('id', internshipId).single();
+      const pdf = await weekTasksPdf(await pdfBrand(), {
+        studentName: student.full_name, field: (fieldRow as any)?.internship_fields?.name ?? '',
+        week: next.week_number, weekTitle: next.title, deadline: shortDate(next.end_date), isFinal: !!next.is_final,
+        tasks: (tasks ?? []).map((t: any) => ({
+          code: t.task_code ?? '', title: t.title ?? '', points: t.points ?? 0,
+          description: t.description ?? '', instructions: t.instructions ?? '',
+          objective: t.objective ?? '', deliverable: t.deliverable ?? '',
+        })),
+        ...SOCIAL,
+      });
+      weekAtt = [{ filename: next.is_final ? 'Final-Project-Tasks.pdf' : `Week-${next.week_number}-Tasks.pdf`, content: pdf }];
+    } catch (e) { console.error('[week pdf]', e); }
     await sendEmail(student.email, 'new_task', {
       name: student.full_name, week: next.week_number, title: next.title,
       taskCount: count ?? 0, deadline: shortDate(next.end_date),
-    });
+    }, weekAtt);
   }
   return next;
 }

@@ -34,7 +34,7 @@ const shell = (title: string, body: string, cta?: { label: string; href: string 
 export type TemplateKey =
   | 'welcome' | 'invitation' | 'application_received' | 'payment_submitted'
   | 'payment_verified' | 'offer_letter' | 'internship_activated' | 'new_task'
-  | 'deadline_reminder' | 'task_reviewed' | 'certificate' | 'lor';
+  | 'deadline_reminder' | 'task_reviewed' | 'certificate' | 'lor' | 'document_issued';
 
 type Ctx = Record<string, any>;
 
@@ -115,6 +115,12 @@ export const TEMPLATES: Record<TemplateKey, (c: Ctx) => { subject: string; html:
     html: shell('Letter of recommendation issued',
       `<p>Hi ${c.name},</p><p>A letter of recommendation has been issued for your completed internship: <strong>${c.lorId}</strong>.</p>`,
       { label: 'Download LOR', href: `${site()}/dashboard/lor` }),
+  }),
+  document_issued: (c) => ({
+    subject: `Your ${c.docLabel} from ${B.name}`,
+    html: shell(`Your ${c.docLabel} is attached`,
+      `<p>Hi ${c.name},</p><p>Please find your <strong>${c.docLabel}</strong>${c.field ? ` for <strong>${c.field}</strong>` : ''} attached to this email as a PDF.</p>`
+      + `<p>If you have any questions, just reply to this email.</p>`),
   }),
 };
 

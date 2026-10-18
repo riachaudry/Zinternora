@@ -43,6 +43,7 @@ const NAV = [
       { href: '/admin/offer-letters', label: 'Offer Letters' },
       { href: '/admin/certificates', label: 'Certificates' },
       { href: '/admin/lor', label: 'LOR' },
+      { href: '/admin/send-documents', label: 'Send Documents' },
       { href: '/admin/samples', label: 'Sample Documents' },
     ],
   },

@@ -7,7 +7,11 @@ import { getBrand } from '../settings';
  * Provider-agnostic email sender. Set EMAIL_PROVIDER=console in development
  * to print emails instead of sending them. No credentials are hard-coded.
  */
-export async function sendEmail(to: string, template: TemplateKey, context: Record<string, any> = {}) {
+export type EmailAttachment = { filename: string; content: Uint8Array };
+
+export async function sendEmail(
+  to: string, template: TemplateKey, context: Record<string, any> = {}, attachments: EmailAttachment[] = [],
+) {
   const brand = await getBrand();
   setEmailBrand({ name: brand.name, legalName: brand.legalName, tagline: brand.tagline, hrName: brand.hrName, hrWhatsapp: brand.hrWhatsapp });
   const { subject, html } = TEMPLATES[template](context);
@@ -23,6 +27,7 @@ export async function sendEmail(to: string, template: TemplateKey, context: Reco
         from: process.env.EMAIL_FROM ?? `${brand.name} <no-reply@internora.app>`,
         to, subject, html,
         replyTo: brand.supportEmail,
+        ...(attachments.length ? { attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content) })) } : {}),
       });
       if ((res as any)?.error) throw new Error((res as any).error.message);
     } else {
