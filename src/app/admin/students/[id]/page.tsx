@@ -129,6 +129,20 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
             </Table>
           </Card>
 
+          {internship.status !== 'active' && (
+            <Card className="p-5">
+              <h2 className="font-display text-[15px] font-bold text-ink">Internship is {internship.status}</h2>
+              <p className="mt-1.5 text-[13.5px] text-slate-light">
+                The student cannot submit tasks while the internship is not active. Reactivate it to let them submit again.
+              </p>
+              <div className="mt-4">
+                <ActionButton url={`/api/admin/internships/${internship.id}`} body={{ action: 'reactivate' }} variant="primary" size="md"
+                              label="Reactivate internship" busyLabel="Working…"
+                              confirm="Make this internship active again so the student can submit tasks?" />
+              </div>
+            </Card>
+          )}
+
           <Card className="p-5">
             <h2 className="font-display text-[15px] font-bold text-ink">Change internship dates (your decision)</h2>
             <p className="mt-1.5 text-[13.5px] text-slate-light">

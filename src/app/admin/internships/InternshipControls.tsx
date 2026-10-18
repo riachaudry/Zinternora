@@ -63,13 +63,14 @@ export function InternshipControls({ internshipId, duration, status }: {
           <Button size="sm" onClick={() => act('complete')} disabled={!!busy}>Mark completed</Button>
         ) : null}
 
-        {status === 'terminated' ? (
+        {status !== 'active' ? (
           <Button size="sm" variant="secondary" onClick={() => act('reactivate')} disabled={!!busy}>Reactivate</Button>
-        ) : (
+        ) : null}
+        {status !== 'terminated' ? (
           <Button size="sm" variant="danger" onClick={() => act('terminate', { remarks })} disabled={!!busy}>
             Terminate
           </Button>
-        )}
+        ) : null}
       </div>
 
       <p className="mt-2 text-[12px] text-slate-light">Normal flow: student submission unlocks the next task automatically. After the last task of a week, the next week opens automatically. Use manual unlock only for an exception.</p>
