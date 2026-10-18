@@ -437,3 +437,36 @@ export async function rescheduleInternship(internshipId: string, startDate: Date
   await audit(adminId, 'internship.reschedule', 'internship', internshipId, { start: isoDate(start) });
   return { startDate: isoDate(start) };
 }
+
+/**
+ * Owner override: move an internship to any start date (any weekday), even after work was submitted.
+ * Only dates change; submissions, scores and week unlock status are left as they are.
+ */
+export async function setInternshipDates(internshipId: string, startDate: Date | string, adminId: string) {
+  const db = createAdminClient();
+  const start = parseDate(startDate);
+  if (Number.isNaN(start.getTime())) throw new Error('Choose a valid start date.');
+  const { data: internship } = await db.from('internships')
+    .select('id, duration').eq('id', internshipId).single();
+  if (!internship) throw new Error('Internship not found.');
+
+  const duration = internship.duration as Duration;
+  const windows = weekWindows(start, duration);
+  await db.from('internships').update({
+    start_date: isoDate(start), end_date: isoDate(internshipEndDate(start, duration)),
+  }).eq('id', internshipId);
+
+  const { data: weeks } = await db.from('internship_weeks').select('id, week_number').eq('internship_id', internshipId);
+  for (const w of weeks ?? []) {
+    const win = windows[w.week_number - 1];
+    if (!win) continue;
+    await db.from('internship_weeks').update({
+      start_date: isoDate(win.startDate), end_date: isoDate(win.endDate),
+    }).eq('id', w.id);
+    await db.from('internship_tasks').update({
+      unlock_date: isoDate(win.startDate), deadline: isoDate(win.endDate),
+    }).eq('week_id', w.id);
+  }
+  await audit(adminId, 'internship.set_dates', 'internship', internshipId, { start: isoDate(start) });
+  return { startDate: isoDate(start) };
+}

@@ -1,7 +1,7 @@
 import { type NextRequest } from 'next/server';
 import { apiAdmin } from '@/lib/auth';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { completeInternship, recomputeScores, unlockNextWeek } from '@/lib/services/internship';
+import { completeInternship, recomputeScores, unlockNextWeek, setInternshipDates } from '@/lib/services/internship';
 import { issueCertificate, issueLor } from '@/lib/services/documents';
 import { notify } from '@/lib/notifications';
 import { audit } from '@/lib/audit';
@@ -9,7 +9,8 @@ import { z } from 'zod';
 import { ok, fail, zodFail } from '../../../_lib';
 
 const schema = z.object({
-  action: z.enum(['recompute', 'complete', 'terminate', 'reactivate', 'unlock_week', 'record_evaluation', 'force_certificate', 'force_lor']),
+  action: z.enum(['recompute', 'complete', 'terminate', 'reactivate', 'unlock_week', 'record_evaluation', 'force_certificate', 'force_lor', 'set_dates']),
+  start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Choose a start date.').optional(),
   week_number: z.number().int().min(1).max(8).optional(),
   remarks: z.string().max(2000).optional(),
 });
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     const admin = await apiAdmin();
     const parsed = schema.safeParse(await req.json());
     if (!parsed.success) return zodFail(parsed.error.issues);
-    const { action, week_number, remarks } = parsed.data;
+    const { action, week_number, remarks, start_date } = parsed.data;
 
     const db = createAdminClient();
     const { data: internship } = await db.from('internships')
@@ -48,6 +49,11 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
         ? await issueCertificate(internship.id, admin.id, { force: true })
         : await issueLor(internship.id, admin.id, { force: true });
       return ok(result);
+    }
+
+    if (action === 'set_dates') {
+      if (!start_date) return fail(new Error('Choose a start date.'));
+      return ok(await setInternshipDates(internship.id, start_date, admin.id));
     }
 
     if (action === 'unlock_week') {

@@ -130,6 +130,23 @@ export default async function StudentDetail(props: { params: Promise<{ id: strin
           </Card>
 
           <Card className="p-5">
+            <h2 className="font-display text-[15px] font-bold text-ink">Change internship dates (your decision)</h2>
+            <p className="mt-1.5 text-[13.5px] text-slate-light">
+              Pick a new start date (any day). All weekly unlock dates and deadlines are recalculated. The student&apos;s submissions and scores are not changed.
+              Current start date: {shortDate(internship.start_date)}.
+            </p>
+            <div className="mt-4 max-w-xs">
+              <ActionForm
+                url={`/api/admin/internships/${internship.id}`}
+                extra={{ action: 'set_dates' }}
+                submitLabel="Save new dates"
+                successMessage="Dates updated."
+                fields={[{ name: 'start_date', label: 'New start date', type: 'date', required: true }]}
+              />
+            </div>
+          </Card>
+
+          <Card className="p-5">
             <h2 className="font-display text-[15px] font-bold text-ink">Issue documents now (your decision)</h2>
             <p className="mt-1.5 text-[13.5px] text-slate-light">
               You can give this student a certificate and/or a letter of recommendation at any time, even if they have not
