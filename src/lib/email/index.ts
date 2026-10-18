@@ -27,7 +27,7 @@ export async function sendEmail(
         from: process.env.EMAIL_FROM ?? `${brand.name} <no-reply@internora.app>`,
         to, subject, html,
         replyTo: brand.supportEmail,
-        ...(attachments.length ? { attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content) })) } : {}),
+        ...(attachments.length ? { attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content).toString('base64') })) } : {}),
       });
       if ((res as any)?.error) throw new Error((res as any).error.message);
     } else {
