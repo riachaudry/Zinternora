@@ -8,7 +8,7 @@ export type EmailBrand = { name: string; legalName: string; tagline: string; hrN
 let B: EmailBrand = { name: BRAND.name, legalName: BRAND.legalName, tagline: BRAND.tagline, hrName: BRAND.hr.name, hrWhatsapp: BRAND.hr.whatsapp };
 export function setEmailBrand(b: EmailBrand) { B = b; }
 
-const site = () => process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const site = () => process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.theinternora.com';
 
 /** Inlined styles — most email clients strip <style> blocks. */
 const shell = (title: string, body: string, cta?: { label: string; href: string }) => `

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     });
     if (error) return fail(new Error(error.message));
 
-    const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+    const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.theinternora.com';
     const link = existing ? `${site}/login` : `${site}/invite/${token}`;
 
     await sendEmail(email, 'invitation', {
