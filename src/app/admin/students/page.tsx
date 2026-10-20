@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { shortDate } from '@/lib/dates';
 import { Avatar } from '@/components/portal/Avatar';
 import { SectionHead, Table, Badge, EmptyState } from '@/components/ui';
+import { ReminderButton } from './ReminderButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +31,8 @@ export default async function AdminStudentsPage(props: { searchParams: Promise<{
   return (
     <div className="space-y-5">
       <SectionHead title="Students" body={`${students?.length ?? 0} accounts${q ? ` matching “${q}”` : ''}.`} />
+
+      <ReminderButton />
 
       <form className="flex gap-2" action="/admin/students">
         <input name="q" defaultValue={q} placeholder="Search name, email or student ID"

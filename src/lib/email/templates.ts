@@ -34,7 +34,7 @@ const shell = (title: string, body: string, cta?: { label: string; href: string 
 export type TemplateKey =
   | 'welcome' | 'invitation' | 'application_received' | 'payment_submitted'
   | 'payment_verified' | 'offer_letter' | 'internship_activated' | 'new_task'
-  | 'deadline_reminder' | 'task_reviewed' | 'certificate' | 'lor' | 'document_issued';
+  | 'deadline_reminder' | 'task_reviewed' | 'certificate' | 'lor' | 'document_issued' | 'payment_reminder';
 
 type Ctx = Record<string, any>;
 
@@ -115,6 +115,14 @@ export const TEMPLATES: Record<TemplateKey, (c: Ctx) => { subject: string; html:
     html: shell('Letter of recommendation issued',
       `<p>Hi ${c.name},</p><p>A letter of recommendation has been issued for your completed internship: <strong>${c.lorId}</strong>.</p>`,
       { label: 'Download LOR', href: `${site()}/dashboard/lor` }),
+  }),
+  payment_reminder: (c) => ({
+    subject: `Complete your ${B.name} internship application`,
+    html: shell('Your internship is one step away',
+      `<p>Hi ${c.name},</p><p>You created your ${B.name} account, but your internship application is not complete yet.</p>`
+      + `<p>To start: choose your field, send the fee (PKR ${c.fee}) to the account shown on the payment page, and upload your payment screenshot. After HR verifies it, your offer letter and Week 1 tasks are sent to you.</p>`
+      + `<p>If you have any question, reply to this email or message HR on WhatsApp.</p>`,
+      { label: 'Complete my application', href: `${site()}/dashboard/apply` }),
   }),
   document_issued: (c) => ({
     subject: `Your ${c.docLabel} from ${B.name}`,
